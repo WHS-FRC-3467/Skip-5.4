@@ -15,9 +15,9 @@ public class Drive extends CommandBase {
 	}
 	
 	protected void execute() {
-		SmartDashboard.putNumber("Left Joystick", OI.joystick1.getY());
-		SmartDashboard.putNumber("Right Joystick", OI.joystick2.getY());
-		db.drive(OI.joystick1.getY(), OI.joystick2.getY());
+		SmartDashboard.putNumber("Left Joystick", OI.leftJoystick.getY());
+		SmartDashboard.putNumber("Right Joystick", OI.rightJoystick.getY());
+		db.drive(OI.leftJoystick.getY(), OI.rightJoystick.getY());
 	}
 	
 	protected void initialize() {

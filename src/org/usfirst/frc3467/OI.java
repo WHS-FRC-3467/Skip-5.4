@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class OI {
 	
-	public static Joystick joystick1;
-	public static Joystick joystick2;
+	public static Joystick leftJoystick;
+	public static Joystick rightJoystick;
 	
 	public OI() {
-		joystick1 = new Joystick(2);
-		joystick2 = new Joystick(1);
+		leftJoystick = new Joystick(2);
+		rightJoystick = new Joystick(1);
 	}
 }

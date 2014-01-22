@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public abstract class CommandBase extends Command {
 	public static OI oi;
 	public static CommandBase cb;
-	public static org.usfirst.frc3467.subsystems.DriveBase3.DriveBase db;
+	public static org.usfirst.frc3467.subsystems.DriveBase3Test.DriveBase db;
 	
 	public static Vector subsystemList;
 	
@@ -20,7 +20,7 @@ public abstract class CommandBase extends Command {
 		// Add new subsystems to the list
 		// db = new DriveBase();
 		
-		db = new org.usfirst.frc3467.subsystems.DriveBase3.DriveBase();
+		db = new org.usfirst.frc3467.subsystems.DriveBase3Test.DriveBase();
 		subsystemList.addElement(db);
 		
 		for (int i = 0; i < subsystemList.size(); i++) {
