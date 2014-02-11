@@ -1,16 +1,23 @@
 package org.usfirst.frc3467.interfaces;
 
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 
 public class Output implements PIDOutput, LiveWindowSendable {
 	
 	private double output = -2000;
+	private Talon motor;
+	
+	public Output(Talon right) {
+		motor = right;
+	}
 	
 	public void pidWrite(double output) {
 		this.output = output;
 		System.out.println("Setting output to: " + output);
+		motor.set(-output);
 	}
 	
 	public double getOutput() {
@@ -25,7 +32,6 @@ public class Output implements PIDOutput, LiveWindowSendable {
 	}
 	
 	public ITable getTable() {
-		
 		return table;
 	}
 	
