@@ -1,7 +1,7 @@
 package org.usfirst.frc3467.subsystems.DriveBase3V3.commands;
 
 import org.usfirst.frc3467.commands.CommandBase;
-import org.usfirst.frc3467.interfaces.Output;
+import org.usfirst.frc3467.pid.Output;
 import org.usfirst.frc3467.pid.Pivot;
 
 import edu.wpi.first.wpilibj.PIDController;
@@ -17,6 +17,7 @@ public class DriveTurn extends CommandBase {
 	private final double Ki = 0.0;
 	private final double Kd = 0.0;
 	private Output pidOutput;
+	
 	private int pivotPoint;
 	
 	public DriveTurn(int degrees, int pivotPoint) {

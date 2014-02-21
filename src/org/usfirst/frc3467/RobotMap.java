@@ -1,12 +1,64 @@
 package org.usfirst.frc3467;
 
-import edu.wpi.first.wpilibj.Talon;
+import org.usfirst.frc3467.subsystems.rollers.Roller;
+import org.usfirst.frc3467.subsystems.shooter.Shooter;
+import org.usfirst.frc3467.subsystems.shooter.Winch;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotMap {
 	
 	// PWM Out
-	public static final Talon talon1 = new Talon(2);
-	public static final Talon talon2 = new Talon(3);
-	public static final Talon talon3 = new Talon(1);
-	public static final Talon talon4 = new Talon(4);
+	public static final int dbRight = 2;
+	public static final int dbLeft = 3;
+	public static final int armAngle = 4;
+	public static final int winch = 5;
+	public static final int rollerTalonBack = 6;
+	public static final int pickupTalonBack = 9;
+	public static final int rollerTalonFront = 8;
+	public static final int pickupTalonFront = 7;
+	
+	// Solenoid
+	public static final int shiftDown = 1;
+	public static final int shiftUp = 2;
+	public static final int winchBrakeLock = 3;
+	public static final int winchBrakeRelease = 4;
+	public static final int winchShiftIn = 5;
+	public static final int winchShiftOut = 6;
+	
+	// Analog
+	public static final int dbGyro = 1;
+	public static final int armPot = 2;
+	public static final int rollerBackPot = 3;
+	public static final int rollerFrontPot = 4;
+	public static final int winchPot = 5;
+	public static final int leftDBCurrent = 6;
+	public static final int rightDBCurrent = 7;
+	public static final int mainBreakerCurrent = 8;
+	
+	// Relay
+	public static final int comperessorSpike = 1;
+	
+	// Digital I/0
+	public static final int compressorPressureSwitch = 1;
+	public static final int driveBaseLeftEncoderA = 2;
+	public static final int driveBaseLeftEncoderB = 3;
+	public static final int driveBaseRightEncoderA = 4;
+	public static final int driveBaseRightEncoderB = 5;
+	
+	// I2C
+	// I dunno. You figure it out
+	
+	// Constants
+	public static final double armMaxSpeed = 0.5;
+	public static double pickUpMaxSpeed = 0.3;
+	
+	public static void updateSensors() {
+		SmartDashboard.putNumber("Winch Pot", Winch.getInstance().pot.pidGet());
+		SmartDashboard.putNumber("Arm Pot", Shooter.getInstance().pot.pidGet());
+		// SmartDashboard.putNumber("Back Pickup Pot", RollerBack.getInstance().pot.pidGet());
+		SmartDashboard.putNumber("Front Pickup Pot", Roller.getInstance().frontPot.pidGet());
+		SmartDashboard.putNumber("Front Pickup Pot", Roller.getInstance().frontPot.get());
+	}
+	
 }

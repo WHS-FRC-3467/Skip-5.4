@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="Libs/wpilibj.jar" sourcepath="Libs/wpilibj.src.zip"/>
 	<classpathentry kind="lib" path="Libs/wpilibj.project.zip"/>
 	<classpathentry kind="lib" path="Libs/wpilibj.src.zip"/>
+	<classpathentry kind="src" path="/Base"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

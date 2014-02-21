@@ -18,6 +18,7 @@ public class PIDTest {
 		if (hasFeedForward)
 			SmartDashboard.putNumber(name + " F", controller.getF());
 		SmartDashboard.putNumber(name + " Error", controller.getError());
+		SmartDashboard.putNumber(name + " Output", controller.get());
 	}
 	
 	public void update() {
@@ -33,5 +34,7 @@ public class PIDTest {
 		
 		// Read
 		SmartDashboard.putNumber(name + " Error", controller.getError());
+		SmartDashboard.putNumber(name + " Output", controller.get());
+		SmartDashboard.putNumber(name + " Setpoint", controller.getSetpoint());
 	}
 }
