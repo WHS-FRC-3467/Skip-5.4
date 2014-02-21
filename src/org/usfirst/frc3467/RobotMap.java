@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotMap {
 	
 	// PWM Out
-	public static final int dbRight = 2;
-	public static final int dbLeft = 3;
-	public static final int armAngle = 4;
-	public static final int winch = 5;
-	public static final int rollerTalonBack = 6;
-	public static final int pickupTalonBack = 9;
-	public static final int rollerTalonFront = 8;
-	public static final int pickupTalonFront = 7;
+	public static final int dbRight = 2; // ////////// Right Drive Base Talon
+	public static final int dbLeft = 3; // /////////// Left Drive Base Talon
+	public static final int armAngle = 4; // ///////// Mast Angle Talon
+	public static final int winch = 5; // //////////// Shooter Winch Talon
+	public static final int rollerTalonBack = 6; // // Back Pickup Roller Talon
+	public static final int pickupTalonBack = 7; // // Back Pickup Angle Talon
+	public static final int rollerTalonFront = 8; // / Front Pickup Roller Talon
+	public static final int pickupTalonFront = 9; // / Front Pickup Angle Talon
 	
 	// Solenoid
 	public static final int shiftDown = 1;
@@ -27,14 +27,14 @@ public class RobotMap {
 	public static final int winchShiftOut = 6;
 	
 	// Analog
-	public static final int dbGyro = 1;
-	public static final int armPot = 2;
-	public static final int rollerBackPot = 3;
-	public static final int rollerFrontPot = 4;
-	public static final int winchPot = 5;
-	public static final int leftDBCurrent = 6;
-	public static final int rightDBCurrent = 7;
-	public static final int mainBreakerCurrent = 8;
+	public static final int dbGyro = 1; // ////////// Gyro
+	public static final int armPot = 2; // ////////// Mast Pot
+	public static final int rollerBackPot = 3; // /// Back Pickup Angle Pot
+	public static final int rollerFrontPot = 4; // // Front Pickup Angle Pot
+	public static final int winchPot = 5; // //////// Shooter Winch Pot
+	public static final int leftDBCurrent = 6; // /// Left Drive Base Current (100 Amps)
+	public static final int rightDBCurrent = 7; // // Right Drive Base Current (100 Amps)
+	public static final int mainCurrent = 8; // ///// Main Breaker Current (200 Amps)
 	
 	// Relay
 	public static final int comperessorSpike = 1;
