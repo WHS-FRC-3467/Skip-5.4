@@ -76,9 +76,9 @@ public class OI {
 				setRollerSpeed3 = new JoystickButton(opGamepadAuto, Gamepad.bButton);
 				setRollerSpeed3.whenPressed(new SetRollerDirection(-1.0));
 				// Presets
-				presetOne = new JoystickButton(OI.opGamepadAuto, Gamepad.leftBumper);
+				presetOne = new JoystickButton(OI.opGamepadAuto, Gamepad.leftTrigger);
 				presetOne.whenPressed(new SetSetpoint(120));
-				presetTwo = new JoystickButton(OI.opGamepadAuto, Gamepad.leftTrigger);
+				presetTwo = new JoystickButton(OI.opGamepadAuto, Gamepad.leftBumper);
 				presetTwo.whenPressed(new SetSetpoint(90));
 				winchInOp = new JoystickButton(opGamepadAuto, Gamepad.backButton);
 				winchInOp.whenPressed(new WinchInGroup());

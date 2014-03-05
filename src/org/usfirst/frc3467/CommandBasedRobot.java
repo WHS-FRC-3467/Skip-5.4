@@ -9,6 +9,8 @@ package org.usfirst.frc3467;
 
 import org.usfirst.frc3467.commands.CommandBase;
 import org.usfirst.frc3467.commands.autonomous.Auto;
+import org.usfirst.frc3467.commands.autonomous.Auto2Back;
+import org.usfirst.frc3467.commands.autonomous.Auto2Front;
 import org.usfirst.frc3467.subsystems.shooter.Shooter;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -16,6 +18,8 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as described in the IterativeRobot documentation. If you change the name of this class or the package after creating this project, you must also update the manifest file in the resource directory.
@@ -23,6 +27,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class CommandBasedRobot extends IterativeRobot {
 	Compressor compressor;
 	Command autonomousCommand;
+	SendableChooser autoChooser;
 	
 	public void robotInit() {
 		// instantiate the command used for the autonomous period
@@ -31,11 +36,17 @@ public class CommandBasedRobot extends IterativeRobot {
 		CommandBase.init();
 		compressor = new Compressor(RobotMap.compressorPressureSwitch, RobotMap.comperessorSpike);
 		compressor.start();
+		
+		autoChooser = new SendableChooser();
+		autoChooser.addDefault("1 Ball", new Auto());
+		autoChooser.addObject("2 Ball Back", new Auto2Back());
+		autoChooser.addObject("2 Ball Front", new Auto2Front());
+		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 	}
 	
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
-		autonomousCommand = new Auto();
+		autonomousCommand = (Command) autoChooser.getSelected();
 		autonomousCommand.start();
 	}
 	
