@@ -1,19 +1,14 @@
 package org.usfirst.frc3467.subsystems.shooter;
 
-import org.usfirst.frc3467.OI;
 import org.usfirst.frc3467.RobotMap;
-import org.usfirst.frc3467.control.Gamepad;
 import org.usfirst.frc3467.pid.Output;
 import org.usfirst.frc3467.pid.PIDTest;
 import org.usfirst.frc3467.subsystems.SubsystemBase;
 import org.usfirst.frc3467.subsystems.shooter.commands.DriveAngle;
-import org.usfirst.frc3467.subsystems.shooter.commands.SetSetpoint;
 import org.usfirst.frc3467.subsystems.shooter.custom.CustomPot;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Shooter extends Subsystem implements SubsystemBase {
@@ -23,12 +18,14 @@ public class Shooter extends Subsystem implements SubsystemBase {
 	public Output motorOutput;
 	
 	public static final boolean debugging = true;
+	public boolean frontSway = true;
+	public boolean backSway = true;
 	
-	private static double Kp = 0.018;
-	private static double Ki = 0.00;
+	private static double Kp = 0.02;
+	private static double Ki = 0.000;
 	private static double Kd = 0.00;
 	
-	public static final int potRange = 45; // Degrees from 90
+	public static final int potRange = 35; // Degrees from 90
 	
 	private static Shooter instance;
 	
@@ -46,6 +43,7 @@ public class Shooter extends Subsystem implements SubsystemBase {
 		pot.setOffset(90 - pot.get());
 		arm = new PIDController(Kp, Ki, Kd, pot, motorOutput);
 		arm.setOutputRange(-RobotMap.armMaxSpeed, RobotMap.armMaxSpeed);
+		arm.setInputRange(90 - potRange, 90 + potRange);
 		arm.setSetpoint(90);
 		if (debugging)
 			test = new PIDTest("Arm", arm, false);
@@ -53,11 +51,11 @@ public class Shooter extends Subsystem implements SubsystemBase {
 	
 	public void addButtons() {
 		// Shooting
-		Button lb = new JoystickButton(OI.oppGamepadAuto, Gamepad.leftBumper);
-		lb.whenPressed(new SetSetpoint(54));
+		// Button lb = new JoystickButton(OI.opGamepadAuto, Gamepad.leftBumper);
+		// lb.whenPressed(new SetSetpoint(54));
 		// Loading
-		Button rb = new JoystickButton(OI.oppGamepadAuto, Gamepad.leftTrigger);
-		rb.whenPressed(new SetSetpoint(45));
+		// Button rb = new JoystickButton(OI.opGamepadAuto, Gamepad.leftTrigger);
+		// rb.whenPressed(new SetSetpoint(45));
 	}
 	
 	protected void initDefaultCommand() {

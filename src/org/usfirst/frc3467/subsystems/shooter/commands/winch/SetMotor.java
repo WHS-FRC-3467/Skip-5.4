@@ -1,31 +1,36 @@
 package org.usfirst.frc3467.subsystems.shooter.commands.winch;
 
 import org.usfirst.frc3467.commands.CommandBase;
+import org.usfirst.frc3467.subsystems.shooter.commands.winch.groups.EndWinch;
 
 public class SetMotor extends CommandBase {
 	double speed = 0.0;
 	
 	public SetMotor(double speed) {
+		requires(winch);
+		// requires(bogus);
 		this.speed = speed;
+		this.setTimeout(0.1);
 	}
 	
 	protected void initialize() {
-		winch.motor.set(speed);
+		System.out.println("Setting Motor to speed: " + speed);
 	}
 	
 	protected void execute() {
-		// TODO Auto-generated method stub
-		
+		winch.motor.set(speed);
 	}
 	
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return true;
+		return this.isTimedOut();
 	}
 	
 	protected void end() {
 		// TODO Auto-generated method stub
-		
+		if (this.getGroup() != null) {
+			System.out.println("Canceling Group");
+			EndWinch.ended = true;
+		}
 	}
 	
 	protected void interrupted() {

@@ -36,5 +36,6 @@ public class PIDTest {
 		SmartDashboard.putNumber(name + " Error", controller.getError());
 		SmartDashboard.putNumber(name + " Output", controller.get());
 		SmartDashboard.putNumber(name + " Setpoint", controller.getSetpoint());
+		// SmartDashboard.putNumber(name + " Input", controller.getSetpoint() + controller.getError());
 	}
 }

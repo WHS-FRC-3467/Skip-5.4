@@ -4,10 +4,11 @@ import org.usfirst.frc3467.commands.CommandBase;
 
 public class EngageMotor extends CommandBase {
 	public EngageMotor() {
-		
+		requires(winch);
 	}
 	
 	protected void initialize() {
+		
 		winch.engageMotor();
 	}
 	

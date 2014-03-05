@@ -10,11 +10,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DrivePickupAngle extends CommandBase {
 	
 	Roller roller;
-	private static final double range = 20;
+	private static final double range = 38;
+	public static final double backDiff = -1;
 	
 	public DrivePickupAngle() {
 		roller = Roller.getInstance();
 		requires(roller);
+		requires(bogus);
 	}
 	
 	protected void initialize() {
@@ -24,98 +26,101 @@ public class DrivePickupAngle extends CommandBase {
 			// Back
 			SmartDashboard.putNumber("Back Power", 0.3);
 		}
+		roller.backArm.enable();
+		roller.frontArm.enable();
 	}
 	
 	protected void execute() {
 		if (Roller.debugging) {
 			// Front Roller
+			SmartDashboard.putNumber("Back Arm Input", roller.backPot.pidGet());
+			SmartDashboard.putNumber("Front Arm Input", roller.frontPot.pidGet());
 			roller.frontTest.update();
-			SmartDashboard.putNumber("Pot", roller.frontPot.pidGet());
-			SmartDashboard.putNumber("Final Output", roller.frontMotor.get());
+			// SmartDashboard.putNumber("Pot", roller.frontPot.pidGet());
+			// SmartDashboard.putNumber("Final Output", roller.frontMotor.get());
 			RobotMap.pickUpMaxSpeed = SmartDashboard.getNumber("Front Power", 0.3);
 			
 			// Back Roller
 			roller.backTest.update();
-			SmartDashboard.putNumber("Back Pot", roller.backPot.pidGet());
-			SmartDashboard.putNumber("Back Final Output", roller.backMotor.get());
+			// SmartDashboard.putNumber("Back Pot", roller.backPot.pidGet());
+			// SmartDashboard.putNumber("Back Final Output", roller.backMotor.get());
 			RobotMap.pickUpMaxSpeed = SmartDashboard.getNumber("Back Power", 0.3);
 		}
 		
 		// FRONT ROLLERS
 		// Manually add joystick values to setpoint
-		// Change setpoint by 5 degrees at most
-		double maxDegrees = 3;
+		// Change setpoint by MAX_DEGREES degrees at most
+		final double MAX_DEGREES = 1; // Speed of manual change in setpoint
+		// Direction of motors in case they need to be reversed for full speed movement
 		int frontDirection = 1;
-		int backDirection = -1;
+		int backDirection = 1;
 		
+		final int BUFFER = 16; // Degrees
+		double shooterAngle = (shooter.pot.pidGet() + shooter.arm.getSetpoint()) / 2;
 		if (Roller.frontRoller) {
-			double frontSetpoint = roller.frontArm.getSetpoint();
-			if (Math.abs(OI.oppGamepadAuto.getRightStickY()) > 0.1)
-				frontSetpoint += (OI.oppGamepadAuto.getRightStickY() * maxDegrees);
-			
-			// Make sure setpoint is within range
-			if (frontSetpoint > 90)
-				frontSetpoint = 90;
-			else if (frontSetpoint < 90 - Roller.potRange)
-				frontSetpoint = 90 - Roller.potRange;
-			roller.frontArm.setSetpoint(frontSetpoint);
-			
-			// Determine the direction that the arm will be moving
-			if (roller.frontArm.getError() < 0)
-				frontDirection = -frontDirection;
-			// If not within PID range
-			if (roller.frontPot.pidGet() > (roller.frontArm.getSetpoint() + range) || roller.frontPot.pidGet() < (roller.frontArm.getSetpoint() - range)) {
-				// Resets variables in PID and disables PID Controller
-				if (roller.frontArm.isEnable())
-					roller.frontArm.reset();
-				// Drive motor at full speed in the correct direction
-				roller.frontMotor.set(RobotMap.pickUpMaxSpeed * frontDirection);
-			} else { // If within range
-				// Enable PID
-				if (!roller.frontArm.isEnable())
-					roller.frontArm.enable();
+			if (shooter.frontSway) {
+				// Sets the roller setpoint to a distance away from the mast to avoid collision
+				roller.frontArm.setSetpoint(checkSetpoint(((180 - shooterAngle) - BUFFER), 90, range));
+				if (Math.abs(OI.opGamepadAuto.getRightStickY()) > 0.3)
+					shooter.frontSway = !shooter.frontSway;
+			} else {
+				double frontSetpoint = roller.frontArm.getSetpoint();
+				if (Math.abs(OI.opGamepadAuto.getRightStickY()) > 0.1)
+					frontSetpoint += (OI.opGamepadAuto.getRightStickY() * MAX_DEGREES);
+				
+				// Sets the setpoint of the front roller
+				roller.frontArm.setSetpoint(checkSetpoint(frontSetpoint, 90, range));
+				
+				// Determine the direction that the arm will be moving
+				if (roller.frontArm.getError() < 0)
+					frontDirection = -frontDirection;
+				// If not within PID range
+				if (roller.frontPot.pidGet() > (roller.frontArm.getSetpoint() + range) || roller.frontPot.pidGet() < (roller.frontArm.getSetpoint() - range)) {
+					// Resets variables in PID and disables PID Controller
+					if (roller.frontArm.isEnable())
+						roller.frontArm.reset();
+					// Drive motor at full speed in the correct direction
+					roller.frontMotor.set(RobotMap.pickUpMaxSpeed * frontDirection);
+				} else { // If within range
+					// Enable PID
+					if (!roller.frontArm.isEnable())
+						roller.frontArm.enable();
+				}
 			}
-			
-			if (roller.frontArm.getSetpoint() < 85)
-				roller.rollerFront.set(1.0);
-			else
-				roller.rollerFront.set(0.0);
 		}
 		// FRONT ROLLERS
 		// Manually add joystick values to setpoint
-		// Change setpoint by 5 degrees at most
+		// Change setpoint by MAX_DEGREES degrees at most
 		if (Roller.backRoller) {
-			double backSetpoint = roller.backArm.getSetpoint();
-			if (Math.abs(OI.oppGamepadAuto.getRightStickY()) > 0.1)
-				backSetpoint += (OI.oppGamepadAuto.getRightStickY() * maxDegrees);
-			
-			// Make sure setpoint is within range
-			if (backSetpoint > 90)
-				backSetpoint = 90;
-			else if (backSetpoint < 90 - Roller.potRange)
-				backSetpoint = 90 - Roller.potRange;
-			roller.backArm.setSetpoint(backSetpoint);
-			
-			// Determine the direction that the arm will be moving
-			if (roller.backArm.getError() < 0)
-				frontDirection = -backDirection;
-			// If not within PID range
-			if (roller.backPot.pidGet() > (roller.backArm.getSetpoint() + range) || roller.backPot.pidGet() < (roller.backArm.getSetpoint() - range)) {
-				// Resets variables in PID and disables PID Controller
-				if (roller.backArm.isEnable())
-					roller.backArm.reset();
-				// Drive motor at full speed in the correct direction
-				roller.frontMotor.set(RobotMap.pickUpMaxSpeed * backDirection);
-			} else { // If within range
-				// Enable PID
-				if (!roller.frontArm.isEnable())
-					roller.frontArm.enable();
+			if (shooter.backSway) {
+				// Sets the roller setpoint to a distance away from the mast to avoid collision
+				roller.backArm.setSetpoint(checkSetpoint(shooterAngle - BUFFER, 90, range));
+				if (Math.abs(OI.opGamepadAuto.getRightStickY()) > 0.3)
+					shooter.backSway = !shooter.backSway;
+			} else {
+				double backSetpoint = roller.backArm.getSetpoint();
+				if (Math.abs(OI.opGamepadAuto.getLeftStickY()) > 0.1)
+					backSetpoint += (OI.opGamepadAuto.getLeftStickY() * MAX_DEGREES);
+				
+				// Sets the setpoint of the rear roller
+				roller.backArm.setSetpoint(checkSetpoint(backSetpoint, 90, range - backDiff));
+				
+				// Determine the direction that the arm will be moving
+				if (roller.backArm.getError() < 0)
+					frontDirection = -backDirection;
+				// If not within PID range
+				if (roller.backPot.pidGet() > (roller.backArm.getSetpoint() + range) || roller.backPot.pidGet() < (roller.backArm.getSetpoint() - range)) {
+					// Resets variables in PID and disables PID Controller
+					if (roller.backArm.isEnable())
+						roller.backArm.reset();
+					// Drive motor at full speed in the correct direction
+					roller.backMotor.set(RobotMap.pickUpMaxSpeed * backDirection);
+				} else { // If within range
+					// Enable PID
+					if (!roller.backArm.isEnable())
+						roller.backArm.enable();
+				}
 			}
-			
-			if (roller.frontArm.getSetpoint() < 85)
-				roller.rollerFront.set(-1.0);
-			else
-				roller.rollerFront.set(0.0);
 		}
 	}
 	
@@ -131,4 +136,12 @@ public class DrivePickupAngle extends CommandBase {
 		
 	}
 	
+	// Make sure setpoint is within range
+	private double checkSetpoint(double setpoint, double base, double range) {
+		if (setpoint > base + range)
+			return base + range;
+		if (setpoint < base - range)
+			return base - range;
+		return setpoint;
+	}
 }

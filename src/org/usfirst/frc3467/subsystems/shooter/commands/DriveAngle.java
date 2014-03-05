@@ -3,6 +3,7 @@ package org.usfirst.frc3467.subsystems.shooter.commands;
 import org.usfirst.frc3467.OI;
 import org.usfirst.frc3467.RobotMap;
 import org.usfirst.frc3467.commands.CommandBase;
+import org.usfirst.frc3467.subsystems.rollers.commands.DrivePickupAngle;
 import org.usfirst.frc3467.subsystems.shooter.Shooter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,23 +25,23 @@ public class DriveAngle extends CommandBase {
 	protected void execute() {
 		if (Shooter.debugging) {
 			shooter.test.update();
-			SmartDashboard.putNumber("Pot", shooter.pot.pidGet());
+			// SmartDashboard.putNumber("Pot", shooter.pot.pidGet());
 			SmartDashboard.putNumber("Final Mast Output", shooter.angleMotor.get());
 		}
 		// Manually add joystick values to setpoint
 		// Change setpoint by 5 degrees at most
 		double maxDegrees = 1;
 		double addSetpoint = 0;
-		if (OI.oppGamepadAuto.getDpadUp())
+		if (OI.opGamepadAuto.getDpadUp())
 			addSetpoint += maxDegrees;
-		if (OI.oppGamepadAuto.getDpadDown())
+		if (OI.opGamepadAuto.getDpadDown())
 			addSetpoint -= maxDegrees;
 		double setpoint = shooter.arm.getSetpoint() + addSetpoint;
 		// Make sure setpoint is within range
 		if (setpoint > 90 + Shooter.potRange)
 			setpoint = 90 + Shooter.potRange;
-		else if (setpoint < 90 - Shooter.potRange)
-			setpoint = 90 - Shooter.potRange;
+		else if (setpoint < 90 - Shooter.potRange + DrivePickupAngle.backDiff)
+			setpoint = 90 - Shooter.potRange + DrivePickupAngle.backDiff;
 		shooter.arm.setSetpoint(setpoint);
 		
 		int direction = 1;
@@ -48,7 +49,7 @@ public class DriveAngle extends CommandBase {
 		if (shooter.arm.getError() > 0)
 			direction = -direction;
 		// If not within PID range
-		if (shooter.pot.pidGet() > (shooter.arm.getSetpoint() + range) || shooter.pot.pidGet() < (shooter.arm.getSetpoint() - range)) {
+		if (shooter.pot.pidGet() > (shooter.arm.getSetpoint() + range) || shooter.pot.pidGet() < (shooter.arm.getSetpoint() - range + DrivePickupAngle.backDiff)) {
 			// Resets variables in PID and disables PID Controller
 			if (shooter.arm.isEnable())
 				shooter.arm.reset();
@@ -59,7 +60,7 @@ public class DriveAngle extends CommandBase {
 			// Enable PID
 			if (!shooter.arm.isEnable())
 				shooter.arm.enable();
-			System.out.println("PID");
+			// System.out.println("PID");
 		}
 	}
 	

@@ -1,15 +1,11 @@
-package org.usfirst.frc3467.subsystems.shooter.commands.winch;
+package org.usfirst.frc3467.subsystems.shooter.commands.auto;
 
 import org.usfirst.frc3467.commands.CommandBase;
 
-public class LockBrake extends CommandBase {
-	public LockBrake() {
-		requires(winch);
-	}
+public class WaitForSignal extends CommandBase {
 	
 	protected void initialize() {
-		// System.out.println("Locking Break");
-		winch.lockBrake();
+		
 	}
 	
 	protected void execute() {
@@ -17,7 +13,7 @@ public class LockBrake extends CommandBase {
 	}
 	
 	protected boolean isFinished() {
-		return true;
+		return kinect.armAngle > 0.9;
 	}
 	
 	protected void end() {
@@ -27,4 +23,5 @@ public class LockBrake extends CommandBase {
 	protected void interrupted() {
 		
 	}
+	
 }

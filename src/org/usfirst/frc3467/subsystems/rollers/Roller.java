@@ -14,8 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Roller extends Subsystem implements SubsystemBase {
 	public Talon frontMotor;
 	public Talon backMotor;
-	public Talon rollerFront;
-	public Talon rollerBack;
+	
 	public CustomPot frontPot;
 	public CustomPot backPot;
 	public PIDController frontArm;
@@ -34,7 +33,7 @@ public class Roller extends Subsystem implements SubsystemBase {
 	private static double Ki = 0.00;
 	private static double Kd = 0.00;
 	
-	public static final int potRange = 58; // Degrees
+	public static final int potRange = 52; // Degrees from 90
 	
 	private static Roller instance;
 	
@@ -47,21 +46,21 @@ public class Roller extends Subsystem implements SubsystemBase {
 		
 		frontMotor = new Talon(RobotMap.pickupTalonFront);
 		frontMotorOutput = new Output(frontMotor, true);
-		rollerFront = new Talon(RobotMap.rollerTalonFront);
 		frontPot = new CustomPot(RobotMap.rollerFrontPot, ((300.0 / 5.0) * (11.0 / 22.0)));
 		frontPot.setOffset(90 - frontPot.get());
 		frontArm = new PIDController(Kp, Ki, Kd, frontPot, frontMotorOutput);
 		frontArm.setOutputRange(-RobotMap.pickUpMaxSpeed, RobotMap.pickUpMaxSpeed);
+		frontArm.setInputRange(90 - potRange, 90);
 		frontArm.setSetpoint(90);
 		frontTest = new PIDTest("Front Pickup Arm", frontArm, false);
 		
 		backMotor = new Talon(RobotMap.pickupTalonBack);
-		backMotorOutput = new Output(backMotor, true);
-		rollerBack = new Talon(RobotMap.rollerTalonBack);
+		backMotorOutput = new Output(backMotor, false);
 		backPot = new CustomPot(RobotMap.rollerBackPot, ((300.0 / 5.0) * (11.0 / 22.0)));
 		backPot.setOffset(90 - backPot.get());
 		backArm = new PIDController(Kp, Ki, Kd, backPot, backMotorOutput);
 		backArm.setOutputRange(-RobotMap.pickUpMaxSpeed, RobotMap.pickUpMaxSpeed);
+		backArm.setInputRange(90 - potRange, 90);
 		backArm.setSetpoint(90);
 		backTest = new PIDTest("Back Pickup Arm", backArm, false);
 	}

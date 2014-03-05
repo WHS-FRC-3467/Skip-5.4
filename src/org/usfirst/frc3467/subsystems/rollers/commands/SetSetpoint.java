@@ -7,6 +7,7 @@ public class SetSetpoint extends CommandBase {
 	
 	Roller roller;
 	private double setpoint;
+	private boolean front = false;
 	
 	public SetSetpoint(double setpoint, boolean front) {
 		roller = Roller.getInstance();
@@ -18,7 +19,10 @@ public class SetSetpoint extends CommandBase {
 	}
 	
 	protected void initialize() {
-		roller.frontArm.setSetpoint(setpoint);
+		if (front)
+			roller.frontArm.setSetpoint(setpoint);
+		else
+			roller.backArm.setSetpoint(setpoint);
 	}
 	
 	protected void execute() {

@@ -4,10 +4,11 @@ import org.usfirst.frc3467.commands.CommandBase;
 
 public class DisengageMotor extends CommandBase {
 	public DisengageMotor() {
-		
+		requires(winch);
 	}
 	
 	protected void initialize() {
+		// System.out.println("Disengaging motor");
 		winch.disengageMotor();
 	}
 	

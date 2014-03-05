@@ -2,9 +2,6 @@ package org.usfirst.frc3467.subsystems.shooter.commands.winch;
 
 import org.usfirst.frc3467.OI;
 import org.usfirst.frc3467.commands.CommandBase;
-import org.usfirst.frc3467.subsystems.shooter.Winch;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ManualWinch extends CommandBase {
 	
@@ -17,8 +14,10 @@ public class ManualWinch extends CommandBase {
 	}
 	
 	protected void execute() {
-		winch.motor.set(OI.oppGamepadManu.getY());
-		SmartDashboard.putNumber("POT!!!", Winch.getInstance().pot.pidGet());
+		if (Math.abs(OI.opGamepadManu.getY()) > 0.2)
+			winch.motor.set(OI.opGamepadManu.getY());
+		else
+			winch.motor.set(0.0);
 	}
 	
 	protected boolean isFinished() {

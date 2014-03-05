@@ -9,6 +9,7 @@ package org.usfirst.frc3467;
 
 import org.usfirst.frc3467.commands.CommandBase;
 import org.usfirst.frc3467.commands.autonomous.Auto;
+import org.usfirst.frc3467.subsystems.shooter.Shooter;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -52,6 +53,8 @@ public class CommandBasedRobot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		Shooter.getInstance().arm.reset();
+		Shooter.getInstance().arm.enable();
 	}
 	
 	/**

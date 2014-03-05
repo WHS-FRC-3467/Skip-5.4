@@ -14,7 +14,7 @@ public class UpdateArmAngle extends CommandBase {
 	
 	protected void execute() {
 		kinect.armAngle = kinect.rightArm.getY();
-		System.out.println(kinect.armAngle);
+		// System.out.println(kinect.armAngle);
 	}
 	
 	protected boolean isFinished() {

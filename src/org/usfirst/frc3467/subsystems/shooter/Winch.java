@@ -1,20 +1,13 @@
 package org.usfirst.frc3467.subsystems.shooter;
 
-import org.usfirst.frc3467.OI;
 import org.usfirst.frc3467.RobotMap;
-import org.usfirst.frc3467.control.Gamepad;
 import org.usfirst.frc3467.subsystems.SubsystemBase;
-import org.usfirst.frc3467.subsystems.shooter.commands.Fire;
 import org.usfirst.frc3467.subsystems.shooter.commands.winch.ManualWinch;
-import org.usfirst.frc3467.subsystems.shooter.commands.winch.SafeRelease;
-import org.usfirst.frc3467.subsystems.shooter.commands.winch.WinchIn;
 import org.usfirst.frc3467.subsystems.shooter.custom.CustomPot;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Winch extends Subsystem implements SubsystemBase {
@@ -28,7 +21,7 @@ public class Winch extends Subsystem implements SubsystemBase {
 	
 	public static int maxPotValue = 3400;
 	public static int minPotValue = 2000;
-	public static int difference = 1400;
+	public static int difference = 1450;
 	
 	public static Winch instance;
 	
@@ -62,35 +55,39 @@ public class Winch extends Subsystem implements SubsystemBase {
 	
 	public void addButtons() {
 		// Standard full power shot
-		Button fire = new JoystickButton(OI.rightJoystick, 3);
-		fire.whenPressed(new Fire());
+		// Button fire = new JoystickButton(OI.rightJoystick, 3);
+		// fire.whenPressed(new Fire());
 		// Shot where motor is still engaged
-		Button fireSoft = new JoystickButton(OI.leftJoystick, 3);
-		fireSoft.whenPressed(new Fire(1.0));
+		// Button fireSoft = new JoystickButton(OI.leftJoystick, 3);
+		// fireSoft.whenPressed(new Fire(1.0));
 		// Winch in shooter
-		Button winchIn = new JoystickButton(OI.oppGamepadAuto, Gamepad.startButton);
-		winchIn.whenPressed(new WinchIn());
+		// Button winchIn = new JoystickButton(OI.opGamepadAuto, Gamepad.startButton);
+		// winchIn.whenPressed(new WinchIn());
 		
-		Button safeRelease = new JoystickButton(OI.leftJoystick, 11);
-		safeRelease.whenPressed(new SafeRelease());
+		// Button safeRelease = new JoystickButton(OI.leftJoystick, 11);
+		// safeRelease.whenPressed(new SafeRelease());
 	}
 	
 	public void lockBrake() {
+		System.out.println("Locking Break");
 		lockBrake.set(true);
 		unlockBrake.set(false);
 	}
 	
 	public void unlockBrake() {
+		System.out.println("Unlocking Brake");
 		unlockBrake.set(true);
 		lockBrake.set(false);
 	}
 	
 	public void engageMotor() {
+		System.out.println("Engaging Motor");
 		engageMotor.set(true);
 		disengageMotor.set(false);
 	}
 	
 	public void disengageMotor() {
+		System.out.println("Disengaging Motor");
 		disengageMotor.set(true);
 		engageMotor.set(false);
 	}

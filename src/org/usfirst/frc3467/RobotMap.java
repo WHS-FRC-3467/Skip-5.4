@@ -1,6 +1,5 @@
 package org.usfirst.frc3467;
 
-import org.usfirst.frc3467.subsystems.rollers.Roller;
 import org.usfirst.frc3467.subsystems.shooter.Shooter;
 import org.usfirst.frc3467.subsystems.shooter.Winch;
 
@@ -57,8 +56,8 @@ public class RobotMap {
 		SmartDashboard.putNumber("Winch Pot", Winch.getInstance().pot.pidGet());
 		SmartDashboard.putNumber("Arm Pot", Shooter.getInstance().pot.pidGet());
 		// SmartDashboard.putNumber("Back Pickup Pot", RollerBack.getInstance().pot.pidGet());
-		SmartDashboard.putNumber("Front Pickup Pot", Roller.getInstance().frontPot.pidGet());
-		SmartDashboard.putNumber("Front Pickup Pot", Roller.getInstance().frontPot.get());
+		// SmartDashboard.putNumber("Front Pickup Pot", Roller.getInstance().frontPot.pidGet());
+		// SmartDashboard.putNumber("Front Pickup Pot", Roller.getInstance().frontPot.get());
 	}
 	
 }

@@ -6,6 +6,7 @@ import org.usfirst.frc3467.OI;
 import org.usfirst.frc3467.subsystems.SubsystemBase;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.DriveBase;
 import org.usfirst.frc3467.subsystems.rollers.Roller;
+import org.usfirst.frc3467.subsystems.rollers.Rollies;
 import org.usfirst.frc3467.subsystems.shooter.Shooter;
 import org.usfirst.frc3467.subsystems.shooter.Winch;
 import org.usfirst.frc3467.subsystems.shooter.commands.auto.MyKinect;
@@ -19,7 +20,9 @@ public abstract class CommandBase extends Command {
 	public static Shooter shooter;
 	public static Winch winch;
 	public static Roller roller;
+	public static Rollies rollies;
 	public static MyKinect kinect;
+	public static Bogus bogus;
 	
 	public static Vector subsystemList;
 	
@@ -27,6 +30,9 @@ public abstract class CommandBase extends Command {
 		oi = new OI();
 		subsystemList = new Vector();
 		// Add new subsystems to the list
+		
+		bogus = new Bogus();
+		subsystemList.addElement(bogus);
 		
 		db = new DriveBase();
 		subsystemList.addElement(db);
@@ -36,6 +42,9 @@ public abstract class CommandBase extends Command {
 		
 		roller = new Roller();
 		subsystemList.addElement(roller);
+		
+		rollies = new Rollies();
+		subsystemList.addElement(rollies);
 		
 		winch = new Winch();
 		subsystemList.addElement(winch);
@@ -47,7 +56,8 @@ public abstract class CommandBase extends Command {
 			((SubsystemBase) subsystemList.elementAt(i)).addButtons();
 			printSys((SubsystemBase) subsystemList.elementAt(i));
 		}
-		
+		oi.BindCommands(OI.JAKE);
+		oi.BindCommands(OI.JAMES);
 	}
 	
 	private static void printSys(SubsystemBase subsystem) {
