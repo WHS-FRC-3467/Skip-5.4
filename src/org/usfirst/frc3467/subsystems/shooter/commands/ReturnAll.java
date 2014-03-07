@@ -17,10 +17,14 @@ public class ReturnAll extends CommandBase {
 		shooter.arm.setSetpoint(90.0);
 		roller.backArm.setSetpoint(90.0);
 		roller.frontArm.setSetpoint(90.0);
+		roller.backArm.enable();
+		roller.frontArm.enable();
 	}
 	
 	protected void execute() {
-		
+		shooter.arm.setSetpoint(90.0);
+		roller.backArm.setSetpoint(90.0);
+		roller.frontArm.setSetpoint(90.0);
 	}
 	
 	protected boolean isFinished() {

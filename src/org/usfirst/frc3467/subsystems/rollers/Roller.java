@@ -33,7 +33,7 @@ public class Roller extends Subsystem implements SubsystemBase {
 	private static double Ki = 0.00;
 	private static double Kd = 0.00;
 	
-	public static final int potRange = 52; // Degrees from 90
+	public static final int potRange = 48; // Degrees from 90
 	
 	private static Roller instance;
 	

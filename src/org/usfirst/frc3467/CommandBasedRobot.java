@@ -11,6 +11,7 @@ import org.usfirst.frc3467.commands.CommandBase;
 import org.usfirst.frc3467.commands.autonomous.Auto;
 import org.usfirst.frc3467.commands.autonomous.Auto2Back;
 import org.usfirst.frc3467.commands.autonomous.Auto2Front;
+import org.usfirst.frc3467.commands.autonomous.AutoShort;
 import org.usfirst.frc3467.subsystems.shooter.Shooter;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -38,7 +39,8 @@ public class CommandBasedRobot extends IterativeRobot {
 		compressor.start();
 		
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("1 Ball", new Auto());
+		autoChooser.addDefault("1 Ball Normal", new Auto());
+		autoChooser.addDefault("1 Ball Close", new AutoShort());
 		autoChooser.addObject("2 Ball Back", new Auto2Back());
 		autoChooser.addObject("2 Ball Front", new Auto2Front());
 		SmartDashboard.putData("Autonomous mode chooser", autoChooser);

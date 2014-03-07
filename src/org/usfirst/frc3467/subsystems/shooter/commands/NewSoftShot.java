@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class NewSoftShot extends CommandGroup {
 	public boolean done = false;
 	
-	public NewSoftShot() {
+	public NewSoftShot(double power) {
 		requires(CommandBase.winch);
-		this.addSequential(new Fire(1.0, false));
+		this.addSequential(new Fire(power, false));
 		this.addSequential(new WinchIn());
 		this.addSequential(new EndWinch());
 	}

@@ -28,6 +28,7 @@ public class DriveStraight extends CommandBase {
 		firstRun = true;
 		driveBase.gyro.reset();
 		driveBase.angle.setSetpoint(0);
+		driveBase.angle.reset();
 		driveBase.angle.enable();
 		if (distanceInInches != 0)
 			distance = distanceInInches;

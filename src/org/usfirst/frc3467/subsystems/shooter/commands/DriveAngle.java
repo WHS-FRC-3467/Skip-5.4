@@ -30,7 +30,7 @@ public class DriveAngle extends CommandBase {
 		}
 		// Manually add joystick values to setpoint
 		// Change setpoint by 5 degrees at most
-		double maxDegrees = 1;
+		double maxDegrees = 2;
 		double addSetpoint = 0;
 		if (OI.opGamepadAuto.getDpadUp())
 			addSetpoint += maxDegrees;
@@ -55,7 +55,7 @@ public class DriveAngle extends CommandBase {
 				shooter.arm.reset();
 			// Drive motor at full speed in the correct direction
 			shooter.angleMotor.set(RobotMap.armMaxSpeed * direction);
-			System.out.println("Full");
+			// System.out.println("Full");
 		} else { // If within range
 			// Enable PID
 			if (!shooter.arm.isEnable())

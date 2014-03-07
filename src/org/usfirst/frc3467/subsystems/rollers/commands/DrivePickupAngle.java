@@ -10,8 +10,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DrivePickupAngle extends CommandBase {
 	
 	Roller roller;
-	private static final double range = 38;
-	public static final double backDiff = -1;
+	private static final double range = 42;
+	public static final double backDiff = -4;
+	public static final double frontDiff = 0;
 	
 	public DrivePickupAngle() {
 		roller = Roller.getInstance();
@@ -52,10 +53,10 @@ public class DrivePickupAngle extends CommandBase {
 		// Change setpoint by MAX_DEGREES degrees at most
 		final double MAX_DEGREES = 1; // Speed of manual change in setpoint
 		// Direction of motors in case they need to be reversed for full speed movement
-		int frontDirection = 1;
+		int frontDirection = -1;
 		int backDirection = 1;
-		
-		final int BUFFER = 16; // Degrees
+		// HI!
+		final int BUFFER = 18; // Degrees
 		double shooterAngle = (shooter.pot.pidGet() + shooter.arm.getSetpoint()) / 2;
 		if (Roller.frontRoller) {
 			if (shooter.frontSway) {
@@ -81,6 +82,7 @@ public class DrivePickupAngle extends CommandBase {
 						roller.frontArm.reset();
 					// Drive motor at full speed in the correct direction
 					roller.frontMotor.set(RobotMap.pickUpMaxSpeed * frontDirection);
+					System.out.println("Roller Full");
 				} else { // If within range
 					// Enable PID
 					if (!roller.frontArm.isEnable())

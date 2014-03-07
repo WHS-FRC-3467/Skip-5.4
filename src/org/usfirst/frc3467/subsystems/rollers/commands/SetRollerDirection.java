@@ -16,9 +16,9 @@ public class SetRollerDirection extends CommandBase {
 	}
 	
 	protected void execute() {
-		if (OI.opGamepadAuto.getRightBumper()) {
+		if (OI.opGamepadAuto.getRightTrigger()) {
 			rollies.rollerFront.set(power);
-		} else if (OI.opGamepadAuto.getRightTrigger()) {
+		} else if (OI.opGamepadAuto.getRightBumper()) {
 			rollies.rollerBack.set(-power);
 		}
 	}

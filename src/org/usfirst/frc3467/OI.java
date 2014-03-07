@@ -9,6 +9,8 @@ import org.usfirst.frc3467.subsystems.shooter.commands.NewSoftShot;
 import org.usfirst.frc3467.subsystems.shooter.commands.ReturnAll;
 import org.usfirst.frc3467.subsystems.shooter.commands.SetSetpoint;
 import org.usfirst.frc3467.subsystems.shooter.commands.ToggleSway;
+import org.usfirst.frc3467.subsystems.shooter.commands.winch.LockBrake;
+import org.usfirst.frc3467.subsystems.shooter.commands.winch.UnlockBrake;
 import org.usfirst.frc3467.subsystems.shooter.commands.winch.WinchInGroup;
 import org.usfirst.frc3467.subsystems.shooter.commands.winch.groups.SafeRelease;
 
@@ -53,6 +55,10 @@ public class OI {
 	Button winchInOp;
 	Button presetOne;
 	Button presetTwo;
+	Button presetThree;
+	Button presetFour;
+	Button lockBrake;
+	Button unlockBrake;
 	
 	public OI() {
 		leftJoystick = new Joystick(1);
@@ -80,6 +86,10 @@ public class OI {
 				presetOne.whenPressed(new SetSetpoint(120));
 				presetTwo = new JoystickButton(OI.opGamepadAuto, Gamepad.leftBumper);
 				presetTwo.whenPressed(new SetSetpoint(90));
+				presetThree = new JoystickButton(opGamepadManu, 12);
+				presetThree.whenPressed(new SetSetpoint(122));
+				presetFour = new JoystickButton(opGamepadManu, 11);
+				presetFour.whenPressed(new SetSetpoint(115));
 				winchInOp = new JoystickButton(opGamepadAuto, Gamepad.backButton);
 				winchInOp.whenPressed(new WinchInGroup());
 				safteyShotOp = new JoystickButton(opGamepadAuto, Gamepad.startButton);
@@ -90,21 +100,26 @@ public class OI {
 				setBack90.whenPressed(new ToggleSway(false, true));
 				returnAll = new JoystickButton(opGamepadAuto, Gamepad.aButton);
 				returnAll.whenPressed(new ReturnAll());
+				
 				break;
 			case JAKE:
 				System.out.println("Jake]");
 				fire = new JoystickButton(rightJoystick, 3);
 				fire.whenPressed(new FireGroup());
 				softShot = new JoystickButton(leftJoystick, 3);
-				softShot.whenPressed(new NewSoftShot());
-				safteyShot = new JoystickButton(leftJoystick, 11);
-				safteyShot.whenPressed(new SafeRelease());
+				softShot.whenPressed(new NewSoftShot(1.0));
+				safteyShot = new JoystickButton(rightJoystick, 11);
+				safteyShot.whenPressed(new NewSoftShot(0.2));
 				shiftDown = new JoystickButton(leftJoystick, 1);
 				shiftDown.whenPressed(new ShiftDown());
 				shiftUp = new JoystickButton(rightJoystick, 1);
 				shiftUp.whenPressed(new ShiftUp());
 				winchIn = new JoystickButton(leftJoystick, 8);
 				winchIn.whenPressed(new WinchInGroup());
+				lockBrake = new JoystickButton(rightJoystick, 7);
+				lockBrake.whenPressed(new LockBrake());
+				lockBrake = new JoystickButton(rightJoystick, 6);
+				lockBrake.whenPressed(new UnlockBrake());
 				break;
 			default:
 				System.out.println("<error>]");

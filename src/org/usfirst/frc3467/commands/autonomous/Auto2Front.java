@@ -3,7 +3,7 @@ package org.usfirst.frc3467.commands.autonomous;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.commands.DriveStraight;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.commands.ShiftUp;
 import org.usfirst.frc3467.subsystems.rollers.commands.SetRoller;
-import org.usfirst.frc3467.subsystems.shooter.commands.FireGroup;
+import org.usfirst.frc3467.subsystems.shooter.commands.NewSoftShot;
 import org.usfirst.frc3467.subsystems.shooter.commands.SetSetpoint;
 import org.usfirst.frc3467.subsystems.shooter.commands.winch.WinchIn;
 import org.usfirst.frc3467.subsystems.shooter.commands.winch.groups.EndWinch;
@@ -26,15 +26,15 @@ public class Auto2Front extends CommandGroup {
 		this.addSequential(new SetRoller(1.0, true), 0.3);
 		
 		// Drive forth!
-		this.addSequential(new DriveStraight(124));
+		this.addSequential(new DriveStraight(168));
 		
 		// Shoot!
 		this.addParallel(new SetRoller(-1.0, true), 0.2);
-		this.addSequential(new SetSetpoint(120));
+		this.addSequential(new SetSetpoint(115));
 		this.addSequential(new WaitCommand(1.0));
-		this.addSequential(new FireGroup());
+		this.addSequential(new NewSoftShot());
 		this.addSequential(new SetRoller(1.0, true), 0.8);
-		this.addSequential(new FireGroup());
+		this.addSequential(new NewSoftShot());
 		
 		// Restore all limbs
 		this.addSequential(new SetSetpoint(90));

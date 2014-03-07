@@ -14,10 +14,14 @@ public class ManualWinch extends CommandBase {
 	}
 	
 	protected void execute() {
-		if (Math.abs(OI.opGamepadManu.getY()) > 0.2)
+		if (Math.abs(OI.opGamepadManu.getY()) > 0.4) {
 			winch.motor.set(OI.opGamepadManu.getY());
-		else
+			System.out.println("Joystick: " + OI.opGamepadManu.getY());
+		} else {
 			winch.motor.set(0.0);
+			// System.out.println("Zero: " + winch.motor.get());
+			// System.out.println("Zero: " + winch.motor.getRaw());
+		}
 	}
 	
 	protected boolean isFinished() {

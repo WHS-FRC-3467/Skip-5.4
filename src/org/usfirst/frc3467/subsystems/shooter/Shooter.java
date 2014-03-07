@@ -25,7 +25,7 @@ public class Shooter extends Subsystem implements SubsystemBase {
 	private static double Ki = 0.000;
 	private static double Kd = 0.00;
 	
-	public static final int potRange = 35; // Degrees from 90
+	public static final int potRange = 45; // Degrees from 90
 	
 	private static Shooter instance;
 	

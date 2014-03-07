@@ -21,7 +21,7 @@ public class Winch extends Subsystem implements SubsystemBase {
 	
 	public static int maxPotValue = 3400;
 	public static int minPotValue = 2000;
-	public static int difference = 1450;
+	public static int difference = 1380;
 	
 	public static Winch instance;
 	
