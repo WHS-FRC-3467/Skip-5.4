@@ -30,13 +30,13 @@ public class Auto2Front extends CommandGroup {
 		
 		// Shoot!
 		this.addParallel(new SetRoller(-1.0, true), 0.2);
-		this.addSequential(new SetSetpoint(115));
+		this.addSequential(new SetSetpoint(115, false));
 		this.addSequential(new WaitCommand(1.0));
-		this.addSequential(new NewSoftShot());
+		this.addSequential(new NewSoftShot(1.0));
 		this.addSequential(new SetRoller(1.0, true), 0.8);
-		this.addSequential(new NewSoftShot());
+		this.addSequential(new NewSoftShot(1.0));
 		
 		// Restore all limbs
-		this.addSequential(new SetSetpoint(90));
+		this.addSequential(new SetSetpoint(90, false));
 	}
 }

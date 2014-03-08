@@ -49,7 +49,7 @@ public class ToggleAngle extends CommandBase {
 				angle = 90;
 				break;
 		}
-		Scheduler.getInstance().add(new SetSetpoint(angle));
+		Scheduler.getInstance().add(new SetSetpoint(angle, false));
 	}
 	
 	protected void execute() {

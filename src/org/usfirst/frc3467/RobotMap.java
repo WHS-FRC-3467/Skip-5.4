@@ -51,6 +51,7 @@ public class RobotMap {
 	// Constants
 	public static final double armMaxSpeed = 0.5;
 	public static double pickUpMaxSpeed = 0.3;
+	public static double softShotSpeed = 0.2;
 	
 	public static void updateSensors() {
 		SmartDashboard.putNumber("Winch Pot", Winch.getInstance().pot.pidGet());

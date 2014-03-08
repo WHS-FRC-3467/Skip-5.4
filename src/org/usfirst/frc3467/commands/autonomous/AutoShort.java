@@ -17,9 +17,9 @@ public class AutoShort extends CommandGroup {
 		this.addSequential(new WinchIn());
 		this.addSequential(new EndWinch());
 		this.addSequential(new DriveStraight(168));
-		this.addSequential(new SetSetpoint(115));
+		this.addSequential(new SetSetpoint(115, false));
 		this.addSequential(new WaitCommand(1.0));
 		this.addSequential(new NewSoftShot(1.0));
-		this.addSequential(new SetSetpoint(90));
+		this.addSequential(new SetSetpoint(90, false));
 	}
 }

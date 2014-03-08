@@ -17,9 +17,9 @@ public class Auto extends CommandGroup {
 		this.addSequential(new WinchIn());
 		this.addSequential(new EndWinch());
 		this.addSequential(new DriveStraight(112));
-		this.addSequential(new SetSetpoint(115));
+		this.addSequential(new SetSetpoint(115, false));
 		this.addSequential(new WaitCommand(1.0));
 		this.addSequential(new FireGroup());
-		this.addSequential(new SetSetpoint(90));
+		this.addSequential(new SetSetpoint(90, false));
 	}
 }

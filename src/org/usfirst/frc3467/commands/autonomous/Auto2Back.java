@@ -30,16 +30,16 @@ public class Auto2Back extends CommandGroup {
 		
 		// Shoot!
 		this.addParallel(new SetRoller(-1.0, false), 0.2);
-		this.addSequential(new SetSetpoint(115));
+		this.addSequential(new SetSetpoint(115, false));
 		this.addSequential(new WaitCommand(1.0));
-		this.addSequential(new NewSoftShot());
-		this.addSequential(new SetSetpoint(60));
+		this.addSequential(new NewSoftShot(1.0));
+		this.addSequential(new SetSetpoint(60, false));
 		this.addSequential(new SetRoller(1.0, false), 0.6);
-		this.addSequential(new SetSetpoint(115));
+		this.addSequential(new SetSetpoint(115, false));
 		this.addSequential(new WaitCommand(1.0));
-		this.addSequential(new NewSoftShot());
+		this.addSequential(new NewSoftShot(1.0));
 		
 		// Restore all limbs
-		this.addSequential(new SetSetpoint(90));
+		this.addSequential(new SetSetpoint(90, false));
 	}
 }

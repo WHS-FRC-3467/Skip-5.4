@@ -7,18 +7,24 @@ public class SetSetpoint extends CommandBase {
 	
 	Shooter shooter;
 	private double setpoint;
+	boolean button;
 	
-	public SetSetpoint(double setpoint) {
+	public SetSetpoint(double setpoint, boolean button) {
 		shooter = Shooter.getInstance();
 		if (setpoint > 90 + Shooter.potRange)
 			setpoint = 90 + Shooter.potRange;
 		else if (setpoint < 90 - Shooter.potRange)
 			setpoint = 90 - Shooter.potRange;
 		this.setpoint = setpoint;
+		this.button = button;
 	}
 	
 	protected void initialize() {
 		shooter.arm.setSetpoint(setpoint);
+		if (button) {
+			shooter.frontSway = true;
+			shooter.backSway = true;
+		}
 	}
 	
 	protected void execute() {

@@ -50,6 +50,7 @@ public class OI {
 	Button fire;
 	Button softShot;
 	Button safteyShot;
+	Button safetyShotSlow;
 	Button safteyShotOp;
 	Button winchIn;
 	Button winchInOp;
@@ -83,17 +84,17 @@ public class OI {
 				setRollerSpeed3.whenPressed(new SetRollerDirection(-1.0));
 				// Presets
 				presetOne = new JoystickButton(OI.opGamepadAuto, Gamepad.leftTrigger);
-				presetOne.whenPressed(new SetSetpoint(120));
+				presetOne.whenPressed(new SetSetpoint(120, true));
 				presetTwo = new JoystickButton(OI.opGamepadAuto, Gamepad.leftBumper);
-				presetTwo.whenPressed(new SetSetpoint(90));
+				presetTwo.whenPressed(new SetSetpoint(90, true));
 				presetThree = new JoystickButton(opGamepadManu, 12);
-				presetThree.whenPressed(new SetSetpoint(122));
+				presetThree.whenPressed(new SetSetpoint(122, true));
 				presetFour = new JoystickButton(opGamepadManu, 11);
-				presetFour.whenPressed(new SetSetpoint(115));
+				presetFour.whenPressed(new SetSetpoint(115, true));
 				winchInOp = new JoystickButton(opGamepadAuto, Gamepad.backButton);
 				winchInOp.whenPressed(new WinchInGroup());
 				safteyShotOp = new JoystickButton(opGamepadAuto, Gamepad.startButton);
-				safteyShotOp.whenPressed(new SafeRelease());
+				safteyShotOp.whenPressed(new NewSoftShot(RobotMap.softShotSpeed));
 				setFornt90 = new JoystickButton(opGamepadAuto, Gamepad.rightStickPress);
 				setFornt90.whenPressed(new ToggleSway(true, true));
 				setBack90 = new JoystickButton(opGamepadAuto, Gamepad.leftStickPress);
@@ -109,7 +110,9 @@ public class OI {
 				softShot = new JoystickButton(leftJoystick, 3);
 				softShot.whenPressed(new NewSoftShot(1.0));
 				safteyShot = new JoystickButton(rightJoystick, 11);
-				safteyShot.whenPressed(new NewSoftShot(0.2));
+				safteyShot.whenPressed(new NewSoftShot(RobotMap.softShotSpeed));
+				safetyShotSlow = new JoystickButton(leftJoystick, 11);
+				safetyShotSlow.whenPressed(new SafeRelease());
 				shiftDown = new JoystickButton(leftJoystick, 1);
 				shiftDown.whenPressed(new ShiftDown());
 				shiftUp = new JoystickButton(rightJoystick, 1);

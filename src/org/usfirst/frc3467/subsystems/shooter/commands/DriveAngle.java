@@ -32,10 +32,16 @@ public class DriveAngle extends CommandBase {
 		// Change setpoint by 5 degrees at most
 		double maxDegrees = 2;
 		double addSetpoint = 0;
-		if (OI.opGamepadAuto.getDpadUp())
+		if (OI.opGamepadAuto.getDpadUp()) {
 			addSetpoint += maxDegrees;
-		if (OI.opGamepadAuto.getDpadDown())
+			shooter.frontSway = true;
+			shooter.backSway = true;
+		}
+		if (OI.opGamepadAuto.getDpadDown()) {
 			addSetpoint -= maxDegrees;
+			shooter.frontSway = true;
+			shooter.backSway = true;
+		}
 		double setpoint = shooter.arm.getSetpoint() + addSetpoint;
 		// Make sure setpoint is within range
 		if (setpoint > 90 + Shooter.potRange)
