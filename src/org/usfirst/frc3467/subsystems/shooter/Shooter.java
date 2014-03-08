@@ -1,9 +1,9 @@
 package org.usfirst.frc3467.subsystems.shooter;
 
+import org.usfirst.frc3467.CommandBasedRobot;
 import org.usfirst.frc3467.RobotMap;
 import org.usfirst.frc3467.pid.Output;
 import org.usfirst.frc3467.pid.PIDTest;
-import org.usfirst.frc3467.subsystems.SubsystemBase;
 import org.usfirst.frc3467.subsystems.shooter.commands.DriveAngle;
 import org.usfirst.frc3467.subsystems.shooter.custom.CustomPot;
 
@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Shooter extends Subsystem implements SubsystemBase {
+public class Shooter extends Subsystem {
 	public Talon angleMotor;
 	public CustomPot pot;
 	public PIDController arm;
@@ -22,7 +22,7 @@ public class Shooter extends Subsystem implements SubsystemBase {
 	public boolean backSway = true;
 	
 	private static double Kp = 0.02;
-	private static double Ki = 0.000;
+	private static double Ki = 0.001;
 	private static double Kd = 0.00;
 	
 	public static final int potRange = 45; // Degrees from 90
@@ -45,17 +45,9 @@ public class Shooter extends Subsystem implements SubsystemBase {
 		arm.setOutputRange(-RobotMap.armMaxSpeed, RobotMap.armMaxSpeed);
 		arm.setInputRange(90 - potRange, 90 + potRange);
 		arm.setSetpoint(90);
+		CommandBasedRobot.PIDList.add(arm);
 		if (debugging)
 			test = new PIDTest("Arm", arm, false);
-	}
-	
-	public void addButtons() {
-		// Shooting
-		// Button lb = new JoystickButton(OI.opGamepadAuto, Gamepad.leftBumper);
-		// lb.whenPressed(new SetSetpoint(54));
-		// Loading
-		// Button rb = new JoystickButton(OI.opGamepadAuto, Gamepad.leftTrigger);
-		// rb.whenPressed(new SetSetpoint(45));
 	}
 	
 	protected void initDefaultCommand() {

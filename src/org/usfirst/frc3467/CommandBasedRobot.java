@@ -7,15 +7,17 @@
 
 package org.usfirst.frc3467;
 
+import java.util.Vector;
+
 import org.usfirst.frc3467.commands.CommandBase;
 import org.usfirst.frc3467.commands.autonomous.Auto;
 import org.usfirst.frc3467.commands.autonomous.Auto2Back;
 import org.usfirst.frc3467.commands.autonomous.Auto2Front;
 import org.usfirst.frc3467.commands.autonomous.AutoShort;
-import org.usfirst.frc3467.subsystems.shooter.Shooter;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -29,21 +31,26 @@ public class CommandBasedRobot extends IterativeRobot {
 	Compressor compressor;
 	Command autonomousCommand;
 	SendableChooser autoChooser;
+	public static Vector PIDList;
+	
+	public CommandBasedRobot() {
+		PIDList = new Vector();
+	}
 	
 	public void robotInit() {
-		// instantiate the command used for the autonomous period
-		System.out.println("Version 0.02");
 		// Initialize all subsystems
 		CommandBase.init();
+		// Start compressor
 		compressor = new Compressor(RobotMap.compressorPressureSwitch, RobotMap.comperessorSpike);
 		compressor.start();
 		
+		// Add autonomous selector
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("1 Ball Normal", new Auto());
 		autoChooser.addDefault("1 Ball Close", new AutoShort());
 		autoChooser.addObject("2 Ball Back", new Auto2Back());
 		autoChooser.addObject("2 Ball Front", new Auto2Front());
-		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
+		SmartDashboard.putData("Auto", autoChooser);
 	}
 	
 	public void autonomousInit() {
@@ -66,8 +73,14 @@ public class CommandBasedRobot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		Shooter.getInstance().arm.reset();
-		Shooter.getInstance().arm.enable();
+		
+		// Resets all integral terms in pid controllers
+		for (int i = 0; i < PIDList.size(); i++) {
+			PIDController controller = (PIDController) PIDList.elementAt(i);
+			controller.reset();
+			controller.enable();
+		}
+		
 	}
 	
 	/**

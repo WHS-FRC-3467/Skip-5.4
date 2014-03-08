@@ -1,11 +1,11 @@
 package org.usfirst.frc3467.subsystems.DriveBase3V3;
 
+import org.usfirst.frc3467.CommandBasedRobot;
 import org.usfirst.frc3467.RobotMap;
 import org.usfirst.frc3467.other.Current;
 import org.usfirst.frc3467.pid.Input;
 import org.usfirst.frc3467.pid.Output;
 import org.usfirst.frc3467.pid.PIDTest;
-import org.usfirst.frc3467.subsystems.SubsystemBase;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.commands.DriveStraight;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.commands.DriveTank;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.commands.ResetDBSensors;
@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DriveBase extends Subsystem implements SubsystemBase {
+public class DriveBase extends Subsystem {
 	
 	public static final boolean debugging = true;
 	
@@ -104,6 +104,7 @@ public class DriveBase extends Subsystem implements SubsystemBase {
 		
 		angle = new PIDController(Gp, Gi, Gd, gyro, gOutput);
 		angle.setContinuous();
+		CommandBasedRobot.PIDList.add(angle);
 		if (debugging)
 			angleTest = new PIDTest("Gyro", angle, false);
 		
@@ -114,18 +115,11 @@ public class DriveBase extends Subsystem implements SubsystemBase {
 		leftCurrent = new Current(RobotMap.leftDBCurrent);
 		rightCurrent = new Current(RobotMap.rightDBCurrent);
 		// mainBreaker = new Current(RobotMap.mainBreakerCurrent);
-	}
-	
-	public void addButtons() {
-		// Add your buttons here
+		
 		if (debugging) {
 			SmartDashboard.putData("Drive Straight", new DriveStraight(0));
 			SmartDashboard.putData("Reset Sensors", new ResetDBSensors());
 		}
-		// Button downShiftBtn = new JoystickButton(OI.leftJoystick, 1);
-		// downShiftBtn.whenPressed(new ShiftDown());
-		// Button upShiftBtn = new JoystickButton(OI.rightJoystick, 1);
-		// upShiftBtn.whenPressed(new ShiftUp());
 	}
 	
 	// Return max speed based on distance to target

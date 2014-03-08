@@ -10,14 +10,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DrivePickupAngle extends CommandBase {
 	
 	Roller roller;
-	private static final double range = 42;
-	public static final double backDiff = -4;
-	public static final double frontDiff = 0;
 	
 	public DrivePickupAngle() {
 		roller = Roller.getInstance();
 		requires(roller);
-		requires(bogus);
 	}
 	
 	protected void initialize() {
@@ -54,14 +50,13 @@ public class DrivePickupAngle extends CommandBase {
 		final double MAX_DEGREES = 1; // Speed of manual change in setpoint
 		// Direction of motors in case they need to be reversed for full speed movement
 		int frontDirection = -1;
-		int backDirection = 1;
-		// HI!
+		
 		final int BUFFER = 18; // Degrees
 		double shooterAngle = (shooter.pot.pidGet() + shooter.arm.getSetpoint()) / 2;
 		if (Roller.frontRoller) {
 			if (shooter.frontSway) {
 				// Sets the roller setpoint to a distance away from the mast to avoid collision
-				roller.frontArm.setSetpoint(checkSetpoint(((180 - shooterAngle) - BUFFER), 90, range));
+				roller.frontArm.setSetpoint((180 - shooterAngle) - BUFFER);
 				if (Math.abs(OI.opGamepadAuto.getRightStickY()) > 0.3)
 					shooter.frontSway = !shooter.frontSway;
 			} else {
@@ -70,13 +65,13 @@ public class DrivePickupAngle extends CommandBase {
 					frontSetpoint += (OI.opGamepadAuto.getRightStickY() * MAX_DEGREES);
 				
 				// Sets the setpoint of the front roller
-				roller.frontArm.setSetpoint(checkSetpoint(frontSetpoint, 90, range));
+				roller.frontArm.setSetpoint(frontSetpoint);
 				
 				// Determine the direction that the arm will be moving
 				if (roller.frontArm.getError() < 0)
 					frontDirection = -frontDirection;
 				// If not within PID range
-				if (roller.frontPot.pidGet() > (roller.frontArm.getSetpoint() + range) || roller.frontPot.pidGet() < (roller.frontArm.getSetpoint() - range)) {
+				if (roller.frontPot.pidGet() > (roller.frontArm.getSetpoint() + Roller.frontPotRange) || roller.frontPot.pidGet() < (roller.frontArm.getSetpoint() - Roller.frontPotRange)) {
 					// Resets variables in PID and disables PID Controller
 					if (roller.frontArm.isEnable())
 						roller.frontArm.reset();
@@ -90,13 +85,16 @@ public class DrivePickupAngle extends CommandBase {
 				}
 			}
 		}
-		// FRONT ROLLERS
+		
+		// BACK ROLLERS
 		// Manually add joystick values to setpoint
 		// Change setpoint by MAX_DEGREES degrees at most
+		// Direction of motors in case they need to be reversed for full speed movement
+		int backDirection = 1;
 		if (Roller.backRoller) {
 			if (shooter.backSway) {
 				// Sets the roller setpoint to a distance away from the mast to avoid collision
-				roller.backArm.setSetpoint(checkSetpoint(shooterAngle - BUFFER, 90, range));
+				roller.backArm.setSetpoint(shooterAngle - BUFFER);
 				if (Math.abs(OI.opGamepadAuto.getRightStickY()) > 0.3)
 					shooter.backSway = !shooter.backSway;
 			} else {
@@ -105,13 +103,13 @@ public class DrivePickupAngle extends CommandBase {
 					backSetpoint += (OI.opGamepadAuto.getLeftStickY() * MAX_DEGREES);
 				
 				// Sets the setpoint of the rear roller
-				roller.backArm.setSetpoint(checkSetpoint(backSetpoint, 90, range - backDiff));
+				roller.backArm.setSetpoint(backSetpoint);
 				
 				// Determine the direction that the arm will be moving
 				if (roller.backArm.getError() < 0)
 					frontDirection = -backDirection;
 				// If not within PID range
-				if (roller.backPot.pidGet() > (roller.backArm.getSetpoint() + range) || roller.backPot.pidGet() < (roller.backArm.getSetpoint() - range)) {
+				if (roller.backPot.pidGet() > (roller.backArm.getSetpoint() + Roller.backPotRange) || roller.backPot.pidGet() < (roller.backArm.getSetpoint() - Roller.backPotRange)) {
 					// Resets variables in PID and disables PID Controller
 					if (roller.backArm.isEnable())
 						roller.backArm.reset();
@@ -136,14 +134,5 @@ public class DrivePickupAngle extends CommandBase {
 	
 	protected void interrupted() {
 		
-	}
-	
-	// Make sure setpoint is within range
-	private double checkSetpoint(double setpoint, double base, double range) {
-		if (setpoint > base + range)
-			return base + range;
-		if (setpoint < base - range)
-			return base - range;
-		return setpoint;
 	}
 }

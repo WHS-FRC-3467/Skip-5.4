@@ -3,7 +3,6 @@ package org.usfirst.frc3467.subsystems.shooter.commands;
 import org.usfirst.frc3467.OI;
 import org.usfirst.frc3467.RobotMap;
 import org.usfirst.frc3467.commands.CommandBase;
-import org.usfirst.frc3467.subsystems.rollers.commands.DrivePickupAngle;
 import org.usfirst.frc3467.subsystems.shooter.Shooter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveAngle extends CommandBase {
 	
 	Shooter shooter;
-	private final double range = 25;// Degrees
+	private final double fullSpeedRange = 25;// Degrees
 	
 	public DriveAngle() {
 		shooter = Shooter.getInstance();
@@ -44,10 +43,6 @@ public class DriveAngle extends CommandBase {
 		}
 		double setpoint = shooter.arm.getSetpoint() + addSetpoint;
 		// Make sure setpoint is within range
-		if (setpoint > 90 + Shooter.potRange)
-			setpoint = 90 + Shooter.potRange;
-		else if (setpoint < 90 - Shooter.potRange + DrivePickupAngle.backDiff)
-			setpoint = 90 - Shooter.potRange + DrivePickupAngle.backDiff;
 		shooter.arm.setSetpoint(setpoint);
 		
 		int direction = 1;
@@ -55,7 +50,7 @@ public class DriveAngle extends CommandBase {
 		if (shooter.arm.getError() > 0)
 			direction = -direction;
 		// If not within PID range
-		if (shooter.pot.pidGet() > (shooter.arm.getSetpoint() + range) || shooter.pot.pidGet() < (shooter.arm.getSetpoint() - range + DrivePickupAngle.backDiff)) {
+		if (shooter.pot.pidGet() > (shooter.arm.getSetpoint() + fullSpeedRange) || shooter.pot.pidGet() < (shooter.arm.getSetpoint() - fullSpeedRange)) {
 			// Resets variables in PID and disables PID Controller
 			if (shooter.arm.isEnable())
 				shooter.arm.reset();

@@ -1,9 +1,9 @@
 package org.usfirst.frc3467.subsystems.rollers;
 
+import org.usfirst.frc3467.CommandBasedRobot;
 import org.usfirst.frc3467.RobotMap;
 import org.usfirst.frc3467.pid.Output;
 import org.usfirst.frc3467.pid.PIDTest;
-import org.usfirst.frc3467.subsystems.SubsystemBase;
 import org.usfirst.frc3467.subsystems.rollers.commands.DrivePickupAngle;
 import org.usfirst.frc3467.subsystems.rollers.custom.CustomPot;
 
@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Roller extends Subsystem implements SubsystemBase {
+public class Roller extends Subsystem {
 	public Talon frontMotor;
 	public Talon backMotor;
 	
@@ -33,7 +33,8 @@ public class Roller extends Subsystem implements SubsystemBase {
 	private static double Ki = 0.00;
 	private static double Kd = 0.00;
 	
-	public static final int potRange = 48; // Degrees from 90
+	public static final int frontPotRange = 48; // Degrees from 90
+	public static final int backPotRange = 48; // Degrees from 90
 	
 	private static Roller instance;
 	
@@ -50,8 +51,9 @@ public class Roller extends Subsystem implements SubsystemBase {
 		frontPot.setOffset(90 - frontPot.get());
 		frontArm = new PIDController(Kp, Ki, Kd, frontPot, frontMotorOutput);
 		frontArm.setOutputRange(-RobotMap.pickUpMaxSpeed, RobotMap.pickUpMaxSpeed);
-		frontArm.setInputRange(90 - potRange, 90);
+		frontArm.setInputRange(90 - frontPotRange, 90);
 		frontArm.setSetpoint(90);
+		CommandBasedRobot.PIDList.add(frontArm);
 		frontTest = new PIDTest("Front Pickup Arm", frontArm, false);
 		
 		backMotor = new Talon(RobotMap.pickupTalonBack);
@@ -60,13 +62,10 @@ public class Roller extends Subsystem implements SubsystemBase {
 		backPot.setOffset(90 - backPot.get());
 		backArm = new PIDController(Kp, Ki, Kd, backPot, backMotorOutput);
 		backArm.setOutputRange(-RobotMap.pickUpMaxSpeed, RobotMap.pickUpMaxSpeed);
-		backArm.setInputRange(90 - potRange, 90);
+		backArm.setInputRange(90 - backPotRange, 90);
 		backArm.setSetpoint(90);
+		CommandBasedRobot.PIDList.add(backArm);
 		backTest = new PIDTest("Back Pickup Arm", backArm, false);
-	}
-	
-	public void addButtons() {
-		
 	}
 	
 	protected void initDefaultCommand() {
