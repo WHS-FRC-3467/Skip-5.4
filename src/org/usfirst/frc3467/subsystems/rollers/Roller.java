@@ -53,7 +53,7 @@ public class Roller extends Subsystem {
 		frontArm.setOutputRange(-RobotMap.pickUpMaxSpeed, RobotMap.pickUpMaxSpeed);
 		frontArm.setInputRange(90 - frontPotRange, 90);
 		frontArm.setSetpoint(90);
-		CommandBasedRobot.PIDList.add(frontArm);
+		CommandBasedRobot.PIDList.addElement(frontArm);
 		frontTest = new PIDTest("Front Pickup Arm", frontArm, false);
 		
 		backMotor = new Talon(RobotMap.pickupTalonBack);
@@ -64,7 +64,7 @@ public class Roller extends Subsystem {
 		backArm.setOutputRange(-RobotMap.pickUpMaxSpeed, RobotMap.pickUpMaxSpeed);
 		backArm.setInputRange(90 - backPotRange, 90);
 		backArm.setSetpoint(90);
-		CommandBasedRobot.PIDList.add(backArm);
+		CommandBasedRobot.PIDList.addElement(backArm);
 		backTest = new PIDTest("Back Pickup Arm", backArm, false);
 	}
 	

@@ -104,7 +104,7 @@ public class DriveBase extends Subsystem {
 		
 		angle = new PIDController(Gp, Gi, Gd, gyro, gOutput);
 		angle.setContinuous();
-		CommandBasedRobot.PIDList.add(angle);
+		CommandBasedRobot.PIDList.addElement(angle);
 		if (debugging)
 			angleTest = new PIDTest("Gyro", angle, false);
 		
@@ -144,6 +144,7 @@ public class DriveBase extends Subsystem {
 	// Use standard tank drive
 	public void driveTank(double left, double right) {
 		drive.tankDrive(left, right);
+		
 		updateSD();
 	}
 	

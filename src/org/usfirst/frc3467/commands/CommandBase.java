@@ -2,6 +2,7 @@ package org.usfirst.frc3467.commands;
 
 import java.util.Vector;
 
+import org.usfirst.frc3467.CommandBasedRobot;
 import org.usfirst.frc3467.OI;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.DriveBase;
 import org.usfirst.frc3467.subsystems.rollers.Roller;
@@ -21,7 +22,7 @@ public abstract class CommandBase extends Command {
 	public static Roller roller;
 	public static Rollies rollies;
 	public static MyKinect kinect;
-	
+	// 90
 	public static Vector subsystemList;
 	
 	public static void init() {
@@ -50,16 +51,27 @@ public abstract class CommandBase extends Command {
 		
 		oi.BindCommands(OI.JAKE);
 		oi.BindCommands(OI.JAMES);
+		
+		potInit();
 	}
 	
 	public CommandBase() {
 		super();
 		cb = this;
-		
 	}
 	
 	public CommandBase(String name) {
 		super(name);
 	}
 	
+	public static void potInit() {
+		System.out.println("Setting Pot Offsets");
+		System.out.println("90 - file" + (90 - Double.parseDouble(CommandBasedRobot.mast.readFile())));
+		System.out.println("Current Offset" + CommandBase.shooter.pot.getOffset());
+		shooter.pot.setOffset(90 - Double.parseDouble(CommandBasedRobot.mast.readFile()));
+		winch.pot.setOffset(-Double.parseDouble(CommandBasedRobot.winch.readFile()));
+		roller.frontPot.setOffset(90 - Double.parseDouble(CommandBasedRobot.fr.readFile()));
+		roller.backPot.setOffset(90 - Double.parseDouble(CommandBasedRobot.br.readFile()));
+		System.out.println("New Offset" + CommandBase.shooter.pot.getOffset());
+	}
 }

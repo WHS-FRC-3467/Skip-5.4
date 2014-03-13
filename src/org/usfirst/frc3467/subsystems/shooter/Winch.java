@@ -18,9 +18,7 @@ public class Winch extends Subsystem {
 	private Solenoid engageMotor;
 	private Solenoid disengageMotor;
 	
-	public static int maxPotValue = 3400;
-	public static int minPotValue = 2000;
-	public static int difference = 1450;
+	public static int difference = 1400;
 	
 	public static Winch instance;
 	
@@ -36,6 +34,7 @@ public class Winch extends Subsystem {
 		instance = this;
 		motor = new Talon(RobotMap.winch);
 		pot = new CustomPot(RobotMap.winchPot, 3600 / 5);
+		
 		winch = new PIDController(Kp, Ki, Kd, pot, motor);
 		winch.setSetpoint(0);
 		
@@ -44,8 +43,7 @@ public class Winch extends Subsystem {
 		lockBrake = new Solenoid(RobotMap.winchBrakeLock);
 		engageMotor = new Solenoid(RobotMap.winchShiftIn);
 		disengageMotor = new Solenoid(RobotMap.winchShiftOut);
-		minPotValue = (int) pot.pidGet();
-		maxPotValue = (int) pot.pidGet() + difference;
+		
 	}
 	
 	protected void initDefaultCommand() {

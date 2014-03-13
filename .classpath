@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="Libs/wpilibj.project.zip"/>
 	<classpathentry kind="lib" path="Libs/wpilibj.src.zip"/>
 	<classpathentry kind="src" path="/Base"/>
+	<classpathentry kind="lib" path="C:/Java_ME_platform_SDK_3.2/lib/jsr177_1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

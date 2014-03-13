@@ -12,7 +12,7 @@ public class WinchIn extends CommandBase {
 	}
 	
 	protected void initialize() {
-		if (winch.pot.pidGet() < Winch.maxPotValue) {
+		if (winch.pot.pidGet() < Winch.difference) {
 			
 			winch.engageMotor();
 			System.out.println("Unlocking Brake");
@@ -23,7 +23,7 @@ public class WinchIn extends CommandBase {
 	protected void execute() {
 		// if (roller.frontPot.pidGet() > 80)
 		// this.cancel();
-		if (winch.pot.pidGet() < Winch.maxPotValue)
+		if (winch.pot.pidGet() < Winch.difference)
 			winch.motor.set(1.0);
 		else
 			winch.motor.set(0.0);
@@ -31,7 +31,7 @@ public class WinchIn extends CommandBase {
 	}
 	
 	protected boolean isFinished() {
-		return this.isCanceled() || (winch.pot.pidGet() > Winch.maxPotValue);
+		return this.isCanceled() || (winch.pot.pidGet() > Winch.difference);
 	}
 	
 	protected void end() {

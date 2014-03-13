@@ -1,7 +1,6 @@
 package org.usfirst.frc3467.subsystems.shooter.commands;
 
 import org.usfirst.frc3467.commands.CommandBase;
-import org.usfirst.frc3467.subsystems.shooter.Winch;
 
 public class Fire extends CommandBase {
 	boolean fullPower = true;
@@ -30,7 +29,7 @@ public class Fire extends CommandBase {
 	}
 	
 	protected boolean isFinished() {
-		return (winch.pot.pidGet() < Winch.minPotValue - 60);
+		return (winch.pot.pidGet() < 60);
 	}
 	
 	protected void end() {

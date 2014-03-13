@@ -14,6 +14,8 @@ import org.usfirst.frc3467.commands.autonomous.Auto;
 import org.usfirst.frc3467.commands.autonomous.Auto2Back;
 import org.usfirst.frc3467.commands.autonomous.Auto2Front;
 import org.usfirst.frc3467.commands.autonomous.AutoShort;
+import org.usfirst.frc3467.other.FTC;
+import org.usfirst.frc3467.other.PotCalibration;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -32,9 +34,17 @@ public class CommandBasedRobot extends IterativeRobot {
 	Command autonomousCommand;
 	SendableChooser autoChooser;
 	public static Vector PIDList;
+	public static FTC mast;
+	public static FTC winch;
+	public static FTC fr;
+	public static FTC br;
 	
 	public CommandBasedRobot() {
 		PIDList = new Vector();
+		mast = new FTC("file:///mastPot.txt");
+		winch = new FTC("file:///winchPot.txt");
+		fr = new FTC("file:///frPot.txt");
+		br = new FTC("file:///brPot.txt");
 	}
 	
 	public void robotInit() {
@@ -46,11 +56,13 @@ public class CommandBasedRobot extends IterativeRobot {
 		
 		// Add autonomous selector
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("1 Ball Normal", new Auto());
+		autoChooser.addObject("1 Ball Normal", new Auto());
 		autoChooser.addDefault("1 Ball Close", new AutoShort());
 		autoChooser.addObject("2 Ball Back", new Auto2Back());
 		autoChooser.addObject("2 Ball Front", new Auto2Front());
 		SmartDashboard.putData("Auto", autoChooser);
+		
+		SmartDashboard.putData(new PotCalibration());
 	}
 	
 	public void autonomousInit() {
@@ -80,7 +92,9 @@ public class CommandBasedRobot extends IterativeRobot {
 			controller.reset();
 			controller.enable();
 		}
-		
+	}
+	
+	public void disabledInit() {
 	}
 	
 	/**
