@@ -11,10 +11,9 @@ public class UltrasonicDoNothing extends CommandBase {
 	}
 	
 	protected void initialize() {
-		if (!bool)
-			ultrasonics.flop2 = !ultrasonics.flop2;
-		else
-			ultrasonics.flop = !ultrasonics.flop;
+		/*
+		 * if (!bool) ultrasonics.flop2 = !ultrasonics.flop2; else ultrasonics.flop = !ultrasonics.flop;
+		 */
 	}
 	
 	protected void execute() {

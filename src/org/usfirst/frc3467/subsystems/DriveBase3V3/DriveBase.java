@@ -2,6 +2,7 @@ package org.usfirst.frc3467.subsystems.DriveBase3V3;
 
 import org.usfirst.frc3467.CommandBasedRobot;
 import org.usfirst.frc3467.RobotMap;
+import org.usfirst.frc3467.commands.CommandBase;
 import org.usfirst.frc3467.other.Current;
 import org.usfirst.frc3467.pid.Input;
 import org.usfirst.frc3467.pid.Output;
@@ -168,6 +169,7 @@ public class DriveBase extends Subsystem {
 		}
 		SmartDashboard.putNumber("Left Current", leftCurrent.getCurrent());
 		SmartDashboard.putNumber("Right Current", rightCurrent.getCurrent());
+		SmartDashboard.putNumber("Distance to wall", CommandBase.ultrasonics.getDistance());
 		// SmartDashboard.putNumber("Main Breaker", mainBreaker.getCurrent());
 	}
 	

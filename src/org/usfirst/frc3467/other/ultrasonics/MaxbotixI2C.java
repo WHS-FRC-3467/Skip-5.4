@@ -76,7 +76,12 @@ public class MaxbotixI2C extends Subsystem {
 		controlLoop = null;
 	}
 	
+	// Returns distance to object in inches
 	public int getDistance() {
+		return (int) (distance * 0.393701);
+	}
+	
+	public int getDistanceInCentimeters() {
 		return distance;
 	}
 	
@@ -84,8 +89,9 @@ public class MaxbotixI2C extends Subsystem {
 		return writeFail;
 	}
 	
-	boolean flop = false;
-	boolean flop2 = false;
+	public void write() {
+		
+	}
 	
 	// gets distance
 	private void setDist() {
@@ -96,53 +102,52 @@ public class MaxbotixI2C extends Subsystem {
 			// if (i2c.write(0x00, 0x51)) {
 			byte[] buffer1 = new byte[1];
 			buffer1[0] = 0x51;
-			if (flop)
-				if (i2c.transaction(buffer1, 1, null, 0)) {
-					writeFail = true;
-					LogDebugger.log("Attempted write to ultrasonic, failed.");
-					System.out.println("Failed to write");
-				} else {
-					System.out.println("Wrote");
-					flop = false;
-				}
-			if (flop2) {
-				flop2 = false;
-				writeFail = false;
-				LogDebugger.log("Wrote to ultrasonic, began rangefinding in centimeters.");
-				timer.reset();
-				timer.start();
-				
-				try {
-					boolean done = false;
-					Timer.delay(.065);
-					for (int i = 0; i < 10; i++) {
-						byte[] buffer = new byte[2];
-						// if (i2c.read(ECHO_ADDRESS_HIGH, 1, buffer)) {
-						if (i2c.transaction(null, 0, buffer, 2)) {
-							// LogDebugger.log(Debug.ULTRASONIC, "Attempted read to ultrasonic high, failed.");
-							System.out.println("Failed to read");
-						} else {
-							System.out.println("Read");
-							done = true;
-							
-							high = buffer[0];
-							low = buffer[1];
-							distance = ((int) high & 0xFF) * 256 + ((int) low & 0xFF);
-							LogDebugger.log("Try: " + i + " Time: " + timer.get() + " High: " + high + " Low: " + low + " Dist: " + distance);
-							
-						}
-						if (done)
-							break;
-						
-						// LogDebugger.log("Try "+i+" failed.");
-						if (i == 9)
-							LogDebugger.log("TRIED 10 TIMES!");
-						Timer.delay(.02);
-					}
-				} catch (Exception e) {
-					LogDebugger.log("Attempt to read ultrasonic caused a fatal exception.");
-				}
+			// if (flop)
+			if (i2c.transaction(buffer1, 1, null, 0)) {
+				writeFail = true;
+				LogDebugger.log("Attempted write to ultrasonic, failed.");
+			} else {
+				// System.out.println("Wrote");
+				// flop = false;
 			}
+			// if (flop2) {
+			// flop2 = false;
+			writeFail = false;
+			// LogDebugger.log("Wrote to ultrasonic, began rangefinding in centimeters.");
+			timer.reset();
+			timer.start();
+			
+			try {
+				boolean done = false;
+				Timer.delay(.065);
+				for (int i = 0; i < 10; i++) {
+					byte[] buffer = new byte[2];
+					// if (i2c.read(ECHO_ADDRESS_HIGH, 1, buffer)) {
+					if (i2c.transaction(null, 0, buffer, 2)) {
+						// LogDebugger.log(Debug.ULTRASONIC, "Attempted read to ultrasonic high, failed.");
+						System.out.println("Failed to read");
+					} else {
+						// System.out.println("Read");
+						done = true;
+						
+						high = buffer[0];
+						low = buffer[1];
+						distance = ((int) high & 0xFF) * 256 + ((int) low & 0xFF);
+						// LogDebugger.log("Try: " + i + " Time: " + timer.get() + " High: " + high + " Low: " + low + " Dist: " + distance);
+						
+					}
+					if (done)
+						break;
+					
+					// LogDebugger.log("Try "+i+" failed.");
+					if (i == 9)
+						LogDebugger.log("TRIED 10 TIMES!");
+					Timer.delay(.02);
+				}
+			} catch (Exception e) {
+				LogDebugger.log("Attempt to read ultrasonic caused a fatal exception.");
+			}
+			// }
 		} catch (Exception e) {
 			LogDebugger.log("Attempt to write to ultrasonic caused a fatal exception");
 		}
