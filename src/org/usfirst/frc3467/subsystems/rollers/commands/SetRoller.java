@@ -1,6 +1,7 @@
 package org.usfirst.frc3467.subsystems.rollers.commands;
 
 import org.usfirst.frc3467.commands.CommandBase;
+import org.usfirst.frc3467.other.Reverse;
 
 public class SetRoller extends CommandBase {
 	double power = 0.0;
@@ -17,10 +18,18 @@ public class SetRoller extends CommandBase {
 	}
 	
 	protected void execute() {
-		if (front) {
-			rollies.rollerFront.set(power);
+		if (!Reverse.reverse) {
+			if (front) {
+				rollies.rollerFront.set(power);
+			} else {
+				rollies.rollerBack.set(-power);
+			}
 		} else {
-			rollies.rollerBack.set(-power);
+			if (front) {
+				rollies.rollerBack.set(-power);
+			} else {
+				rollies.rollerFront.set(power);
+			}
 		}
 	}
 	
