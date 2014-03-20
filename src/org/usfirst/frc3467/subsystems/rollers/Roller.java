@@ -33,7 +33,7 @@ public class Roller extends Subsystem {
 	private static double Ki = 0.00;
 	private static double Kd = 0.00;
 	
-	public static final int frontPotRange = 48; // Degrees from 90
+	public static final int frontPotRange = 35; // Degrees from 90
 	public static final int backPotRange = 48; // Degrees from 90
 	
 	private static Roller instance;
@@ -47,8 +47,7 @@ public class Roller extends Subsystem {
 		
 		frontMotor = new Talon(RobotMap.pickupTalonFront);
 		frontMotorOutput = new Output(frontMotor, true);
-		frontPot = new CustomPot(RobotMap.rollerFrontPot, ((300.0 / 5.0) * (11.0 / 22.0)));
-		frontPot.setOffset(90 - frontPot.get());
+		frontPot = new CustomPot(RobotMap.rollerFrontPot, ((270.0 / 5.0) * (11.0 / 22.0)));
 		frontArm = new PIDController(Kp, Ki, Kd, frontPot, frontMotorOutput);
 		frontArm.setOutputRange(-RobotMap.pickUpMaxSpeed, RobotMap.pickUpMaxSpeed);
 		frontArm.setInputRange(90 - frontPotRange, 90);
@@ -59,7 +58,6 @@ public class Roller extends Subsystem {
 		backMotor = new Talon(RobotMap.pickupTalonBack);
 		backMotorOutput = new Output(backMotor, false);
 		backPot = new CustomPot(RobotMap.rollerBackPot, ((300.0 / 5.0) * (11.0 / 22.0)));
-		backPot.setOffset(90 - backPot.get());
 		backArm = new PIDController(Kp, Ki, Kd, backPot, backMotorOutput);
 		backArm.setOutputRange(-RobotMap.pickUpMaxSpeed, RobotMap.pickUpMaxSpeed);
 		backArm.setInputRange(90 - backPotRange, 90);

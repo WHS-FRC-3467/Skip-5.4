@@ -3,6 +3,7 @@ package org.usfirst.frc3467.subsystems.DriveBase3V3.commands;
 import org.usfirst.frc3467.OI;
 import org.usfirst.frc3467.RobotMap;
 import org.usfirst.frc3467.commands.CommandBase;
+import org.usfirst.frc3467.other.Reverse;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.DriveBase;
 
 public class DriveTank extends CommandBase {
@@ -20,7 +21,10 @@ public class DriveTank extends CommandBase {
 	}
 	
 	protected void execute() {
-		driveBase.driveTank(OI.leftJoystick.getY(), OI.rightJoystick.getY());
+		if (!Reverse.reverse)
+			driveBase.driveTank(OI.leftJoystick.getY(), OI.rightJoystick.getY());
+		else
+			driveBase.driveTank(-OI.rightJoystick.getY(), -OI.leftJoystick.getY());
 		RobotMap.updateSensors();
 	}
 	

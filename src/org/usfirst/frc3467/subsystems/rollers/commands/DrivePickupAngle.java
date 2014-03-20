@@ -3,6 +3,7 @@ package org.usfirst.frc3467.subsystems.rollers.commands;
 import org.usfirst.frc3467.OI;
 import org.usfirst.frc3467.RobotMap;
 import org.usfirst.frc3467.commands.CommandBase;
+import org.usfirst.frc3467.other.Reverse;
 import org.usfirst.frc3467.subsystems.rollers.Roller;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -57,12 +58,22 @@ public class DrivePickupAngle extends CommandBase {
 			if (shooter.frontSway) {
 				// Sets the roller setpoint to a distance away from the mast to avoid collision
 				roller.frontArm.setSetpoint((180 - shooterAngle) - BUFFER);
-				if (Math.abs(OI.opGamepadAuto.getRightStickY()) > 0.3)
-					shooter.frontSway = !shooter.frontSway;
+				if (!Reverse.reverse) {
+					if (Math.abs(OI.opGamepadAuto.getRightStickY()) > 0.3)
+						shooter.frontSway = !shooter.frontSway;
+				} else {
+					if (Math.abs(OI.opGamepadAuto.getLeftStickY()) > 0.3)
+						shooter.frontSway = !shooter.frontSway;
+				}
 			} else {
 				double frontSetpoint = roller.frontArm.getSetpoint();
-				if (Math.abs(OI.opGamepadAuto.getRightStickY()) > 0.1)
-					frontSetpoint += (OI.opGamepadAuto.getRightStickY() * MAX_DEGREES);
+				if (!Reverse.reverse) {
+					if (Math.abs(OI.opGamepadAuto.getRightStickY()) > 0.1)
+						frontSetpoint += (OI.opGamepadAuto.getRightStickY() * MAX_DEGREES);
+				} else {
+					if (Math.abs(OI.opGamepadAuto.getLeftStickY()) > 0.1)
+						frontSetpoint += (OI.opGamepadAuto.getLeftStickY() * MAX_DEGREES);
+				}
 				
 				// Sets the setpoint of the front roller
 				roller.frontArm.setSetpoint(frontSetpoint);
@@ -77,7 +88,7 @@ public class DrivePickupAngle extends CommandBase {
 						roller.frontArm.reset();
 					// Drive motor at full speed in the correct direction
 					roller.frontMotor.set(RobotMap.pickUpMaxSpeed * frontDirection);
-					System.out.println("Roller Full");
+					System.out.println("FrontRoller Full");
 				} else { // If within range
 					// Enable PID
 					if (!roller.frontArm.isEnable())
@@ -95,12 +106,22 @@ public class DrivePickupAngle extends CommandBase {
 			if (shooter.backSway) {
 				// Sets the roller setpoint to a distance away from the mast to avoid collision
 				roller.backArm.setSetpoint(shooterAngle - BUFFER);
-				if (Math.abs(OI.opGamepadAuto.getRightStickY()) > 0.3)
-					shooter.backSway = !shooter.backSway;
+				if (!Reverse.reverse) {
+					if (Math.abs(OI.opGamepadAuto.getLeftStickY()) > 0.3)
+						shooter.frontSway = !shooter.frontSway;
+				} else {
+					if (Math.abs(OI.opGamepadAuto.getRightStickY()) > 0.3)
+						shooter.frontSway = !shooter.frontSway;
+				}
 			} else {
 				double backSetpoint = roller.backArm.getSetpoint();
-				if (Math.abs(OI.opGamepadAuto.getLeftStickY()) > 0.1)
-					backSetpoint += (OI.opGamepadAuto.getLeftStickY() * MAX_DEGREES);
+				if (!Reverse.reverse) {
+					if (Math.abs(OI.opGamepadAuto.getLeftStickY()) > 0.1)
+						backSetpoint += (OI.opGamepadAuto.getLeftStickY() * MAX_DEGREES);
+				} else {
+					if (Math.abs(OI.opGamepadAuto.getRightStickY()) > 0.1)
+						backSetpoint += (OI.opGamepadAuto.getRightStickY() * MAX_DEGREES);
+				}
 				
 				// Sets the setpoint of the rear roller
 				roller.backArm.setSetpoint(backSetpoint);
@@ -115,6 +136,7 @@ public class DrivePickupAngle extends CommandBase {
 						roller.backArm.reset();
 					// Drive motor at full speed in the correct direction
 					roller.backMotor.set(RobotMap.pickUpMaxSpeed * backDirection);
+					System.out.println("Back Roller Full");
 				} else { // If within range
 					// Enable PID
 					if (!roller.backArm.isEnable())

@@ -10,10 +10,9 @@ package org.usfirst.frc3467;
 import java.util.Vector;
 
 import org.usfirst.frc3467.commands.CommandBase;
-import org.usfirst.frc3467.commands.autonomous.Auto;
-import org.usfirst.frc3467.commands.autonomous.Auto2Back;
 import org.usfirst.frc3467.commands.autonomous.Auto2Front;
-import org.usfirst.frc3467.commands.autonomous.AutoShort;
+import org.usfirst.frc3467.commands.autonomous.Unh;
+import org.usfirst.frc3467.commands.autonomous.UnhFast;
 import org.usfirst.frc3467.other.FTC;
 import org.usfirst.frc3467.other.PotCalibration;
 
@@ -56,10 +55,10 @@ public class CommandBasedRobot extends IterativeRobot {
 		
 		// Add autonomous selector
 		autoChooser = new SendableChooser();
-		autoChooser.addObject("1 Ball Normal", new Auto());
-		autoChooser.addDefault("1 Ball Close", new AutoShort());
-		autoChooser.addObject("2 Ball Back", new Auto2Back());
-		autoChooser.addObject("2 Ball Front", new Auto2Front());
+		autoChooser.addDefault("UNH", new Unh());
+		autoChooser.addObject("UNH Faster", new UnhFast());
+		autoChooser.addObject("2 Ball Front Slow", new Auto2Front());
+		
 		SmartDashboard.putData("Auto", autoChooser);
 		
 		SmartDashboard.putData(new PotCalibration());
@@ -67,6 +66,12 @@ public class CommandBasedRobot extends IterativeRobot {
 	
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
+		for (int i = 0; i < PIDList.size(); i++) {
+			PIDController controller = (PIDController) PIDList.elementAt(i);
+			controller.reset();
+			controller.enable();
+		}
+		
 		autonomousCommand = (Command) autoChooser.getSelected();
 		autonomousCommand.start();
 	}
@@ -79,8 +84,8 @@ public class CommandBasedRobot extends IterativeRobot {
 	}
 	
 	public void teleopInit() {
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
+		// if (autonomousCommand != null)
+		// autonomousCommand.cancel();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove

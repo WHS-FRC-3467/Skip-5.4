@@ -6,10 +6,13 @@ import org.usfirst.frc3467.commands.CommandBase;
 import edu.wpi.first.wpilibj.PIDController;
 
 public class PotCalibration extends CommandBase {
-	int calibrationTime = 10;
+	int calibrationTime = 20;
 	
 	public PotCalibration() {
 		this.setTimeout(calibrationTime);
+		requires(shooter);
+		requires(roller);
+		requires(winch);
 	}
 	
 	protected void initialize() {
@@ -19,15 +22,12 @@ public class PotCalibration extends CommandBase {
 			PIDController controller = (PIDController) CommandBasedRobot.PIDList.elementAt(i);
 			controller.disable();
 		}
+		shooter.angleMotor.set(0.0);
 		System.out.println("Calibrating Pots in 10 seconds");
 	}
 	
-	int count = 0;
-	
 	protected void execute() {
-		count++;
-		if (count % 20 == 0)
-			System.out.println("Time to calibration = " + (calibrationTime - this.timeSinceInitialized()) + " seconds");
+		System.out.println("Time to calibration = " + (calibrationTime - this.timeSinceInitialized()) + " seconds");
 	}
 	
 	protected boolean isFinished() {

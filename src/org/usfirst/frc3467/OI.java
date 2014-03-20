@@ -1,6 +1,7 @@
 package org.usfirst.frc3467;
 
 import org.usfirst.frc3467.control.Gamepad;
+import org.usfirst.frc3467.other.Reverse;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.commands.ShiftDown;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.commands.ShiftUp;
 import org.usfirst.frc3467.subsystems.rollers.commands.SetRollerDirection;
@@ -34,6 +35,7 @@ public class OI {
 	Button resetDBSensors;
 	Button shiftDown;
 	Button shiftUp;
+	Button reverse;
 	
 	// Roller
 	Button setSetpointRoller;
@@ -58,6 +60,7 @@ public class OI {
 	Button presetTwo;
 	Button presetThree;
 	Button presetFour;
+	Button presetFive;
 	Button lockBrake;
 	Button unlockBrake;
 	
@@ -91,6 +94,8 @@ public class OI {
 				presetThree.whenPressed(new SetSetpoint(122, true));
 				presetFour = new JoystickButton(opGamepadManu, 11);
 				presetFour.whenPressed(new SetSetpoint(115, true));
+				presetFive = new JoystickButton(opGamepadManu, 10);
+				presetFive.whenPressed(new SetSetpoint(130, true));
 				winchInOp = new JoystickButton(opGamepadAuto, Gamepad.backButton);
 				winchInOp.whenPressed(new WinchInGroup());
 				safteyShotOp = new JoystickButton(opGamepadAuto, Gamepad.startButton);
@@ -101,7 +106,6 @@ public class OI {
 				setBack90.whenPressed(new ToggleSway(false, true));
 				returnAll = new JoystickButton(opGamepadAuto, Gamepad.aButton);
 				returnAll.whenPressed(new ReturnAll());
-				
 				break;
 			case JAKE:
 				System.out.println("Jake]");
@@ -123,6 +127,8 @@ public class OI {
 				lockBrake.whenPressed(new LockBrake());
 				lockBrake = new JoystickButton(rightJoystick, 6);
 				lockBrake.whenPressed(new UnlockBrake());
+				reverse = new JoystickButton(rightJoystick, 8);
+				reverse.whenPressed(new Reverse());
 				break;
 			default:
 				System.out.println("<error>]");

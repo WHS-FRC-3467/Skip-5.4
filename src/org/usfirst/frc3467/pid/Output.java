@@ -25,7 +25,10 @@ public class Output implements SpeedController, PIDOutput, IDeviceController {
 	}
 	
 	public void pidWrite(double output) {
-		this.output = output;
+		if (reverse)
+			this.output = -output;
+		else
+			this.output = output;
 		// System.out.println("Setting output to: " + output);
 		if (motor != null)
 			if (reverse)

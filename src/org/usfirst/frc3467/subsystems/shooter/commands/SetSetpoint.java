@@ -1,6 +1,7 @@
 package org.usfirst.frc3467.subsystems.shooter.commands;
 
 import org.usfirst.frc3467.commands.CommandBase;
+import org.usfirst.frc3467.other.Reverse;
 import org.usfirst.frc3467.subsystems.shooter.Shooter;
 
 public class SetSetpoint extends CommandBase {
@@ -20,7 +21,10 @@ public class SetSetpoint extends CommandBase {
 	}
 	
 	protected void initialize() {
-		shooter.arm.setSetpoint(setpoint);
+		if (!Reverse.reverse)
+			shooter.arm.setSetpoint(setpoint);
+		else
+			shooter.arm.setSetpoint(180 - setpoint);
 		if (button) {
 			shooter.frontSway = true;
 			shooter.backSway = true;

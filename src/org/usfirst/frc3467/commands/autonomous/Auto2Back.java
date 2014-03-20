@@ -26,7 +26,7 @@ public class Auto2Back extends CommandGroup {
 		this.addSequential(new SetRoller(1.0, false), 0.3);
 		
 		// Drive forth!
-		this.addSequential(new DriveStraight(168));
+		this.addSequential(new DriveStraight(168, 0.6, false));
 		
 		// Shoot!
 		this.addParallel(new SetRoller(-1.0, false), 0.2);

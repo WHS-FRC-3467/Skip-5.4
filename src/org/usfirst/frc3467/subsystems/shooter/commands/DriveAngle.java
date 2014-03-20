@@ -3,6 +3,7 @@ package org.usfirst.frc3467.subsystems.shooter.commands;
 import org.usfirst.frc3467.OI;
 import org.usfirst.frc3467.RobotMap;
 import org.usfirst.frc3467.commands.CommandBase;
+import org.usfirst.frc3467.other.Reverse;
 import org.usfirst.frc3467.subsystems.shooter.Shooter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveAngle extends CommandBase {
 	
 	Shooter shooter;
-	private final double fullSpeedRange = 25;// Degrees
+	private final double fullSpeedRange = 15;// Degrees
 	
 	public DriveAngle() {
 		shooter = Shooter.getInstance();
@@ -32,12 +33,18 @@ public class DriveAngle extends CommandBase {
 		double maxDegrees = 2;
 		double addSetpoint = 0;
 		if (OI.opGamepadAuto.getDpadUp()) {
-			addSetpoint += maxDegrees;
+			if (!Reverse.reverse)
+				addSetpoint += maxDegrees;
+			else
+				addSetpoint -= maxDegrees;
 			shooter.frontSway = true;
 			shooter.backSway = true;
 		}
 		if (OI.opGamepadAuto.getDpadDown()) {
-			addSetpoint -= maxDegrees;
+			if (!Reverse.reverse)
+				addSetpoint -= maxDegrees;
+			else
+				addSetpoint += maxDegrees;
 			shooter.frontSway = true;
 			shooter.backSway = true;
 		}

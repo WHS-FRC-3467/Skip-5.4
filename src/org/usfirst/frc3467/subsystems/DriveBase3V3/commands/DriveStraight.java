@@ -11,13 +11,16 @@ public class DriveStraight extends CommandBase {
 	int startTicks;
 	int distance;
 	int distanceInInches = 0;
+	double speed = 0.0;
+	boolean debug = false;
 	
-	public DriveStraight(int distanceInInches) {
+	public DriveStraight(int distanceInInches, double speed, boolean debug) {
 		driveBase = DriveBase.getInstance();
 		this.distanceInInches = distanceInInches;
 		requires(driveBase);
-		
-		this.setTimeout(5);
+		this.speed = speed;
+		this.debug = debug;
+		this.setTimeout(10);
 		if (DriveBase.debugging) {
 			SmartDashboard.putNumber("DS Timeout", 10);
 			SmartDashboard.putNumber("Distance", 112);
@@ -25,53 +28,57 @@ public class DriveStraight extends CommandBase {
 	}
 	
 	protected void initialize() {
-		firstRun = true;
 		driveBase.gyro.reset();
 		driveBase.angle.setSetpoint(0);
 		driveBase.angle.reset();
 		driveBase.angle.enable();
-		if (distanceInInches != 0)
+		
+		if (!debug) {
 			distance = distanceInInches;
-		else if (DriveBase.debugging)
+		} else {
 			distance = (int) SmartDashboard.getNumber("Distance", 112);
+			speed = SmartDashboard.getNumber("Max Speed", 0.6);
+		}
 		System.out.println("Traveling: " + distance);
+		
+		driveBase.distance.reset();
+		driveBase.distance.setSetpoint(distance * DriveBase.TICKS_PER_INCH);
+		driveBase.distance.setOutputRange(-speed, speed);
+		driveBase.distance.enable();
+		
 		startTicks = (int) driveBase.avgEnc.pidGet();
 	}
 	
-	boolean firstRun = true;
-	
 	protected void execute() {
-		if (DriveBase.debugging)
+		this.setTimeout(SmartDashboard.getNumber("DS Timeout", 10));
+		driveBase.updateSD();
+		
+		if (DriveBase.debugging) {
 			driveBase.angleTest.update();
-		if (firstRun) {
-			driveBase.driveTank(0.2, 0.2);
-			firstRun = false;
-		} else {
-			this.setTimeout(SmartDashboard.getNumber("DS Timeout", 10));
-			driveBase.updateSD();
-			// driveBase.angleTest.update();
-			int distanceToGo = ((int) ((distance * DriveBase.TICKS_PER_INCH) + startTicks) - (int) driveBase.avgEnc.pidGet());
-			driveBase.driveArcade(driveBase.getMaxSpeed((int) driveBase.avgEnc.pidGet(), distanceToGo), driveBase.angle.get());
+			driveBase.distanceTest.update();
 		}
+		driveBase.driveArcade(driveBase.dOutput.get(), driveBase.gOutput.get());
+		if (DriveBase.debugging)
+			SmartDashboard.putNumber("Distance Travled", (Math.abs(driveBase.avgEnc.pidGet()) - startTicks) / DriveBase.TICKS_PER_INCH);
 	}
 	
 	protected boolean isFinished() {
-		int distanceToGo = ((int) ((distance * DriveBase.TICKS_PER_INCH) + startTicks) - (int) driveBase.avgEnc.pidGet());
-		if (isTimedOut() || manualSwitch() || Math.abs(distanceToGo) < (DriveBase.TICKS_PER_INCH * 3))
-			return true;
-		else
-			return false;
+		if (driveBase.distance.onTarget())
+			System.out.println("On Target");
+		if (manualSwitch())
+			System.out.println("Manual Switch");
+		if (this.isTimedOut())
+			System.out.println("Timed Out");
+		return driveBase.distance.onTarget() || manualSwitch() || this.isTimedOut();
 	}
 	
 	private boolean manualSwitch() {
-		if (Math.abs(OI.leftJoystick.getY()) > 0.2 || Math.abs(OI.rightJoystick.getY()) > 0.2)
-			return true;
-		else
-			return false;
+		return (Math.abs(OI.leftJoystick.getY()) > 0.2) || (Math.abs(OI.rightJoystick.getY()) > 0.2);
 	}
 	
 	protected void end() {
 		driveBase.angle.disable();
+		driveBase.distance.disable();
 		driveBase.driveArcade(0, 0);
 		if (DriveBase.debugging)
 			SmartDashboard.putNumber("Distance Travled", (Math.abs(driveBase.avgEnc.pidGet()) - startTicks) / DriveBase.TICKS_PER_INCH);

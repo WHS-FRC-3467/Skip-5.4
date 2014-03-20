@@ -39,14 +39,21 @@ public class DriveBase extends Subsystem {
 	public static final double WHEEL_DIAMETER = 4;
 	public static final double TICKS_PER_INCH = (TICKS_PER_REV / (WHEEL_DIAMETER * Math.PI)); // 224.2
 	
-	private static final double Gp = 0.1;
-	private static final double Gi = 0.000;
+	private static final double Gp = 0.3;
+	private static final double Gi = 0.001;
 	private static final double Gd = 0.0;
+	
+	private static final double Dp = 0.9;
+	private static final double Di = 0.000;
+	private static final double Dd = 0.001;
 	
 	private RobotDrive drive;
 	
 	public PIDController angle;
 	public PIDTest angleTest;
+	
+	public PIDController distance;
+	public PIDTest distanceTest;
 	
 	private Solenoid shiftDown;
 	private Solenoid shiftUp;
@@ -54,6 +61,7 @@ public class DriveBase extends Subsystem {
 	public Output lOutput;
 	public Output rOutput;
 	public Output gOutput;
+	public Output dOutput;
 	
 	public Input avgEnc;
 	
@@ -77,8 +85,7 @@ public class DriveBase extends Subsystem {
 		shiftUp = new Solenoid(RobotMap.shiftUp);
 		
 		if (debugging) {
-			SmartDashboard.putNumber("Max Speed", -0.6);
-			SmartDashboard.putNumber("Distance K", 0.9);
+			SmartDashboard.putNumber("Max Speed", 0.6);
 		}
 		
 		leftSideEnc = new Encoder(RobotMap.driveBaseLeftEncoderA, RobotMap.driveBaseLeftEncoderB);
@@ -98,41 +105,36 @@ public class DriveBase extends Subsystem {
 		lOutput = new Output(left, false);
 		rOutput = new Output(right, true);
 		gOutput = new Output();
+		dOutput = new Output(true);
+		
+		avgEnc = new Input(0);
+		avgEnc.addEncoder(leftSideEnc);
+		avgEnc.addEncoder(rightSideEnc);
 		
 		drive = new RobotDrive(lOutput, rOutput);
 		drive.setSafetyEnabled(false);
 		
 		angle = new PIDController(Gp, Gi, Gd, gyro, gOutput);
 		angle.setContinuous();
+		angle.setAbsoluteTolerance(4);
+		angle.setInputRange(0, 359);
 		CommandBasedRobot.PIDList.addElement(angle);
-		if (debugging)
-			angleTest = new PIDTest("Gyro", angle, false);
 		
-		avgEnc = new Input(0);
-		avgEnc.addEncoder(leftSideEnc);
-		avgEnc.addEncoder(rightSideEnc);
+		distance = new PIDController(Dp, Di, Dd, avgEnc, dOutput);
+		distance.setAbsoluteTolerance(4 * TICKS_PER_INCH);
+		if (debugging) {
+			angleTest = new PIDTest("Gyro", angle, false);
+			distanceTest = new PIDTest("Distance", distance, false);
+		}
 		
 		leftCurrent = new Current(RobotMap.leftDBCurrent);
 		rightCurrent = new Current(RobotMap.rightDBCurrent);
 		// mainBreaker = new Current(RobotMap.mainBreakerCurrent);
 		
 		if (debugging) {
-			SmartDashboard.putData("Drive Straight", new DriveStraight(0));
+			SmartDashboard.putData("Drive Straight", new DriveStraight(0, 0.6, true));
 			SmartDashboard.putData("Reset Sensors", new ResetDBSensors());
 		}
-	}
-	
-	// Return max speed based on distance to target
-	public double getMaxSpeed(int encoderCount, int distanceToGo) {
-		double max = SmartDashboard.getNumber("Max Speed", -0.6);
-		double maxSpeed = SmartDashboard.getNumber("Distance K", 0.9) * (distanceToGo / 1000);
-		if (maxSpeed < -max)
-			maxSpeed = -max;
-		else if (maxSpeed > max)
-			maxSpeed = max;
-		if (debugging)
-			SmartDashboard.putNumber("Speed", maxSpeed);
-		return maxSpeed;
 	}
 	
 	// Use arcade mode to drive

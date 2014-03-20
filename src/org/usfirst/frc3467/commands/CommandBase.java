@@ -4,6 +4,8 @@ import java.util.Vector;
 
 import org.usfirst.frc3467.CommandBasedRobot;
 import org.usfirst.frc3467.OI;
+import org.usfirst.frc3467.other.ultrasonics.MaxbotixI2C;
+import org.usfirst.frc3467.other.ultrasonics.UltrasonicDoNothing;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.DriveBase;
 import org.usfirst.frc3467.subsystems.rollers.Roller;
 import org.usfirst.frc3467.subsystems.rollers.Rollies;
@@ -12,6 +14,7 @@ import org.usfirst.frc3467.subsystems.shooter.Winch;
 import org.usfirst.frc3467.subsystems.shooter.commands.auto.MyKinect;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class CommandBase extends Command {
 	public static OI oi;
@@ -22,6 +25,7 @@ public abstract class CommandBase extends Command {
 	public static Roller roller;
 	public static Rollies rollies;
 	public static MyKinect kinect;
+	public static MaxbotixI2C ultrasonics;
 	// 90
 	public static Vector subsystemList;
 	
@@ -49,8 +53,14 @@ public abstract class CommandBase extends Command {
 		kinect = new MyKinect();
 		subsystemList.addElement(kinect);
 		
+		ultrasonics = new MaxbotixI2C(0);
+		subsystemList.addElement(ultrasonics);
+		
 		oi.BindCommands(OI.JAKE);
 		oi.BindCommands(OI.JAMES);
+		
+		SmartDashboard.putData("Write", new UltrasonicDoNothing(true));
+		SmartDashboard.putData("Read", new UltrasonicDoNothing(false));
 		
 		potInit();
 	}

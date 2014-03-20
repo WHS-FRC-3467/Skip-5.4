@@ -1,6 +1,7 @@
 package org.usfirst.frc3467.subsystems.shooter.commands;
 
 import org.usfirst.frc3467.commands.CommandBase;
+import org.usfirst.frc3467.other.Reverse;
 
 public class ToggleSway extends CommandBase {
 	private boolean front = false;
@@ -12,10 +13,17 @@ public class ToggleSway extends CommandBase {
 	}
 	
 	protected void initialize() {
-		if (front)
-			shooter.frontSway = state;
-		else
-			shooter.backSway = state;
+		if (!Reverse.reverse) {
+			if (front)
+				shooter.frontSway = state;
+			else
+				shooter.backSway = state;
+		} else {
+			if (!front)
+				shooter.frontSway = state;
+			else
+				shooter.backSway = state;
+		}
 	}
 	
 	protected void execute() {
