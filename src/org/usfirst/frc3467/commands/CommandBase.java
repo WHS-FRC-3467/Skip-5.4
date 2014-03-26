@@ -30,7 +30,6 @@ public abstract class CommandBase extends Command {
 	public static Vector subsystemList;
 	
 	public static void init() {
-		oi = new OI();
 		subsystemList = new Vector();
 		// Add new subsystems to the list
 		
@@ -55,6 +54,8 @@ public abstract class CommandBase extends Command {
 		
 		ultrasonics = new MaxbotixI2C(0);
 		subsystemList.addElement(ultrasonics);
+		
+		oi = new OI();
 		
 		oi.BindCommands(OI.JAKE);
 		oi.BindCommands(OI.JAMES);

@@ -20,7 +20,7 @@ public class Auto2Front extends CommandGroup {
 		this.addParallel(new ResetDBSensors());
 		this.addSequential(new WaitCommand(0.2));
 		this.addSequential(new SetSetpoint(100, false));
-		this.addParallel(new DriveStraight(132, 0.8, false));
+		this.addParallel(new DriveStraight(180, 0.8, false));
 		this.addSequential(new WinchIn());
 		this.addSequential(new EndWinch());
 		this.addSequential(new WaitForChildren());
@@ -32,7 +32,7 @@ public class Auto2Front extends CommandGroup {
 		this.addSequential(new SetSetpoint(130, false));
 		this.addSequential(new WaitCommand(0.2));
 		this.addSequential(new SetRoller(1.0, true), 1.5);
-		this.addSequential(new SetSetpoint(118, false));
+		this.addSequential(new SetSetpoint(120, false));
 		this.addSequential(new WaitCommand(0.6));
 		this.addSequential(new NewSoftShot(1.0));
 		// Doesn't need to happen in 10 seconds

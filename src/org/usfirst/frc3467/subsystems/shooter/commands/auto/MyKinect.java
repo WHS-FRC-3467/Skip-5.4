@@ -12,6 +12,10 @@ public class MyKinect extends Subsystem {
 	}
 	
 	protected void initDefaultCommand() {
-		this.setDefaultCommand(new UpdateArmAngle());
+		// this.setDefaultCommand(new UpdateArmAngle());
+	}
+	
+	public double getY() {
+		return this.rightArm.getY();
 	}
 }

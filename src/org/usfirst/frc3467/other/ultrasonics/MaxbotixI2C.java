@@ -1,6 +1,7 @@
 package org.usfirst.frc3467.other.ultrasonics;
 
 import java.util.TimerTask;
+import java.util.Vector;
 
 import edu.wpi.first.wpilibj.DigitalModule;
 import edu.wpi.first.wpilibj.I2C;
@@ -13,12 +14,17 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 
 public class MaxbotixI2C extends Subsystem {
+	
+	public static final double A = -967.9;
+	public static final double B = 43.64;
+	public static final double C = -0.668;
+	public static final double D = 0.004374;
+	public static final double E = -0.0000104;
+	
 	public static final int ULTRASONIC_ADDRESS1 = 0xE0;
 	public static final int ULTRASONIC_ADDRESS2 = 0xE1;
 	
 	private static final int ULTRASONIC_SLOT = DigitalModule.getDefaultDigitalModule();
-	private static final int ECHO_ADDRESS_HIGH = 2;
-	private static final int ECHO_ADDRESS_LOW = 3;
 	
 	private I2C i2c;
 	
@@ -51,6 +57,10 @@ public class MaxbotixI2C extends Subsystem {
 	}
 	
 	public MaxbotixI2C(int address) {
+		list = new Vector();
+		for (int i = 0; i < size; i++) {
+			list.addElement(new Double(0.0));
+		}
 		if (address == 0x0)
 			address = ULTRASONIC_ADDRESS1;
 		
@@ -81,6 +91,15 @@ public class MaxbotixI2C extends Subsystem {
 		return (int) (distance * 0.393701);
 	}
 	
+	public int getMedianDistance() {
+		return (int) (median * 0.393701);
+	}
+	
+	public double getAngle(double x) {
+		double angle = A + (B * x) + (C * (x * x)) + (D * (x * x * x)) + (E * (x * x * x * x));
+		return angle;
+	}
+	
 	public int getDistanceInCentimeters() {
 		return distance;
 	}
@@ -93,10 +112,32 @@ public class MaxbotixI2C extends Subsystem {
 		
 	}
 	
+	private Vector list;
+	private Vector medianList;
+	private double median = 0.0;
+	private int size = 9;
+	
+	private void updateMedian() {
+		if (list.size() > size)
+			list.removeElementAt(0);
+		list.addElement(new Double(distance));
+		medianList = list;
+		boolean swapped = true;
+		for (int i = medianList.size() - 1; i >= 0 && swapped == false; i--) {
+			double firstVal = Double.parseDouble(((Double) medianList.elementAt(i)).toString());
+			double secondVal = Double.parseDouble(((Double) medianList.elementAt(i - 1)).toString());
+			if (firstVal > secondVal) {
+				medianList.setElementAt(new Double(secondVal), i);
+				medianList.setElementAt(new Double(firstVal), i - 1);
+				swapped = true;
+			}
+		}
+		median = Double.parseDouble((medianList.elementAt((medianList.size() / 2) + 1)).toString());
+	}
+	
 	// gets distance
 	private void setDist() {
 		byte high, low;
-		
 		try {
 			// setting range to centimeters
 			// if (i2c.write(0x00, 0x51)) {
@@ -151,7 +192,7 @@ public class MaxbotixI2C extends Subsystem {
 		} catch (Exception e) {
 			LogDebugger.log("Attempt to write to ultrasonic caused a fatal exception");
 		}
-		
+		updateMedian();
 		// Schedule next loop.
 		controlLoop.schedule(new UltrasonicTask(this), (long) (period * 1000));
 	}

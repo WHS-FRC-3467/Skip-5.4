@@ -31,9 +31,7 @@ public class RobotMap {
 	public static final int rollerBackPot = 3; // /// Back Pickup Angle Pot
 	public static final int rollerFrontPot = 4; // // Front Pickup Angle Pot
 	public static final int winchPot = 5; // //////// Shooter Winch Pot
-	public static final int leftDBCurrent = 6; // /// Left Drive Base Current (100 Amps)
-	public static final int rightDBCurrent = 7; // // Right Drive Base Current (100 Amps)
-	public static final int mainCurrent = 8; // ///// Main Breaker Current (200 Amps)
+	public static final int mainCurrent = 6; // ///// Main Breaker Current (200 Amps)
 	
 	// Relay
 	public static final int comperessorSpike = 1;

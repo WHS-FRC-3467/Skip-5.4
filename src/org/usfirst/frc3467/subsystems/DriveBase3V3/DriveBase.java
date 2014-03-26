@@ -32,8 +32,6 @@ public class DriveBase extends Subsystem {
 	public Encoder rightSideEnc;
 	public Gyro gyro;
 	
-	public Current leftCurrent;
-	public Current rightCurrent;
 	public Current mainBreaker;
 	
 	public static final double TICKS_PER_REV = 3840;
@@ -128,9 +126,7 @@ public class DriveBase extends Subsystem {
 			distanceTest = new PIDTest("Distance", distance, false);
 		}
 		
-		leftCurrent = new Current(RobotMap.leftDBCurrent);
-		rightCurrent = new Current(RobotMap.rightDBCurrent);
-		// mainBreaker = new Current(RobotMap.mainBreakerCurrent);
+		mainBreaker = new Current(RobotMap.mainCurrent);
 		
 		if (debugging) {
 			SmartDashboard.putData("Drive Straight", new DriveStraight(0, 0.6, true));
@@ -153,6 +149,10 @@ public class DriveBase extends Subsystem {
 	
 	// Refresh Smart Dashboard values
 	public void updateSD() {
+		if (mainBreaker.getCurrent() > 200) {
+			// Indicate LEDS
+			
+		}
 		if (debugging) {
 			SmartDashboard.putNumber("Gyro", gyro.getAngle());
 			// Print data to smart dashboard
@@ -167,9 +167,9 @@ public class DriveBase extends Subsystem {
 			SmartDashboard.putNumber("RightSpeed", rightSideEnc.getRate());
 			SmartDashboard.putNumber("AvgSpeed", (rightSideEnc.getRate() + leftSideEnc.getRate()) / 2);
 		}
-		SmartDashboard.putNumber("Left Current", leftCurrent.getCurrent());
-		SmartDashboard.putNumber("Right Current", rightCurrent.getCurrent());
-		SmartDashboard.putNumber("Distance to wall", CommandBase.ultrasonics.getDistance());
+		SmartDashboard.putNumber("Main Breaker", mainBreaker.getCurrent());
+		SmartDashboard.putNumber("Distance to wall raw", CommandBase.ultrasonics.getDistance());
+		SmartDashboard.putNumber("Distance to wall median", CommandBase.ultrasonics.getMedianDistance());
 		// SmartDashboard.putNumber("Main Breaker", mainBreaker.getCurrent());
 	}
 	

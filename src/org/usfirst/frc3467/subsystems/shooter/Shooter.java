@@ -24,6 +24,9 @@ public class Shooter extends Subsystem {
 	private static double Kp = 0.02;
 	private static double Ki = 0.001;
 	private static double Kd = 0.00;
+	public static final double FORCE = 177.80826;
+	public static final double TRAVEL = 40;
+	public static final double MASS = 20;
 	
 	public static final int potRange = 40; // Degrees from 90
 	
@@ -40,13 +43,14 @@ public class Shooter extends Subsystem {
 		angleMotor = new Talon(RobotMap.armAngle);
 		motorOutput = new Output(angleMotor, true);
 		pot = new CustomPot(RobotMap.armPot, (300 / 5));
-		arm = new PIDController(Kp, Ki, Kd, pot, motorOutput);
+		// arm = new PIDController(Kp, Ki, Kd, pot, motorOutput);
 		arm.setOutputRange(-RobotMap.armMaxSpeed, RobotMap.armMaxSpeed);
 		arm.setInputRange(90 - potRange, 90 + potRange);
 		arm.setSetpoint(90);
 		CommandBasedRobot.PIDList.addElement(arm);
 		if (debugging)
 			test = new PIDTest("Arm", arm, false);
+		
 	}
 	
 	protected void initDefaultCommand() {

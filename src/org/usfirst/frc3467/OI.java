@@ -63,6 +63,7 @@ public class OI {
 	Button presetFive;
 	Button lockBrake;
 	Button unlockBrake;
+	Button autoAngle;
 	
 	public OI() {
 		leftJoystick = new Joystick(1);
@@ -106,6 +107,8 @@ public class OI {
 				setBack90.whenPressed(new ToggleSway(false, true));
 				returnAll = new JoystickButton(opGamepadAuto, Gamepad.aButton);
 				returnAll.whenPressed(new ReturnAll());
+				autoAngle = new JoystickButton(opGamepadManu, 8);
+				autoAngle.whileHeld(new SetSetpoint(true));
 				break;
 			case JAKE:
 				System.out.println("Jake]");
