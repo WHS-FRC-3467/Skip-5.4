@@ -33,7 +33,7 @@ public class MaxbotixI2C extends Subsystem {
 	
 	private int distance = 0;
 	// private int curr_dist = 0;
-	private double period = 0.05;
+	private double period = 0.2;
 	private boolean writeFail = false;
 	
 	private class UltrasonicTask extends TimerTask {
@@ -97,7 +97,7 @@ public class MaxbotixI2C extends Subsystem {
 	
 	public double getAngle(double x) {
 		double angle = A + (B * x) + (C * (x * x)) + (D * (x * x * x)) + (E * (x * x * x * x));
-		return angle;
+		return 180 - angle;
 	}
 	
 	public int getDistanceInCentimeters() {

@@ -13,6 +13,7 @@ public class PotCalibration extends CommandBase {
 		requires(shooter);
 		requires(roller);
 		requires(winch);
+		this.setInterruptible(false);
 	}
 	
 	protected void initialize() {
@@ -23,6 +24,8 @@ public class PotCalibration extends CommandBase {
 			controller.disable();
 		}
 		shooter.angleMotor.set(0.0);
+		roller.frontMotor.set(0.0);
+		roller.backMotor.set(0.0);
 		System.out.println("Calibrating Pots in 10 seconds");
 	}
 	

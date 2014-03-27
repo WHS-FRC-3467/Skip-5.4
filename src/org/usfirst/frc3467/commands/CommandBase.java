@@ -9,6 +9,7 @@ import org.usfirst.frc3467.other.ultrasonics.UltrasonicDoNothing;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.DriveBase;
 import org.usfirst.frc3467.subsystems.rollers.Roller;
 import org.usfirst.frc3467.subsystems.rollers.Rollies;
+import org.usfirst.frc3467.subsystems.shooter.Mast;
 import org.usfirst.frc3467.subsystems.shooter.Shooter;
 import org.usfirst.frc3467.subsystems.shooter.Winch;
 import org.usfirst.frc3467.subsystems.shooter.commands.auto.MyKinect;
@@ -21,6 +22,7 @@ public abstract class CommandBase extends Command {
 	public static CommandBase cb;
 	public static DriveBase db;
 	public static Shooter shooter;
+	public static Mast mast;
 	public static Winch winch;
 	public static Roller roller;
 	public static Rollies rollies;
@@ -38,6 +40,9 @@ public abstract class CommandBase extends Command {
 		
 		shooter = new Shooter();
 		subsystemList.addElement(shooter);
+		
+		mast = new Mast(0, 0, 0);
+		subsystemList.addElement(mast);
 		
 		roller = new Roller();
 		subsystemList.addElement(roller);

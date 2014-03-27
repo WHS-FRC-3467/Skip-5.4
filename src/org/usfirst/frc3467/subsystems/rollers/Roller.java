@@ -33,7 +33,7 @@ public class Roller extends Subsystem {
 	private static double Ki = 0.00;
 	private static double Kd = 0.00;
 	
-	public static final int frontPotRange = 35; // Degrees from 90
+	public static final int frontPotRange = 42; // Degrees from 90
 	public static final int backPotRange = 42; // Degrees from 90
 	
 	private static Roller instance;

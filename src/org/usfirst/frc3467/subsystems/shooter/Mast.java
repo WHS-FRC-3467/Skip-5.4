@@ -14,7 +14,7 @@ public class Mast extends PIDSubsystem {
 		shooter = CommandBase.shooter;
 		lastAngle = shooter.pot.pidGet();
 		lastTime = System.currentTimeMillis();
-		setpoint = shooter.arm.getSetpoint();
+		setpoint = 90;
 	}
 	
 	protected double returnPIDInput() {
@@ -58,10 +58,10 @@ public class Mast extends PIDSubsystem {
 	private double lastSpeed = 0.0;
 	
 	// Constants
-	private double TORQUE_C = 0.0;
-	private double TORQUE_A = 0.0;
-	private static final double TORQUE_STALL = 0.81;
-	private static final double SPEED_RATED = 1608 / 660;
+	public double TORQUE_C = 0.0;
+	public double TORQUE_A = 0.0;
+	private static final double TORQUE_STALL = 0.81 * 660.0;
+	private static final double SPEED_RATED = (1608.0 / 660.0) * 360.0 * 60.0;
 	private double SPEED_A = 0.0;
 	
 	public long getDeltaTime() {
@@ -86,14 +86,19 @@ public class Mast extends PIDSubsystem {
 	
 	public double getMotorOutput(boolean stall) {
 		double batteryRatio = (12.0) / (DriverStation.getInstance().getBatteryVoltage());
+		System.out.println("Theta: " + theta);
+		System.out.println("Bat: " + batteryRatio);
 		double torqueRatio;
 		if (stall) {
-			torqueRatio = (Math.cosh(theta) * TORQUE_C) / (TORQUE_STALL);
+			torqueRatio = (Math.cos(Math.toRadians(theta)) * TORQUE_C) / (TORQUE_STALL);
 		} else {
 			torqueRatio = ((finalSpeed - speed) / deltaTime) * TORQUE_A;
 		}
+		System.out.println("Tor: " + torqueRatio);
 		double speedRatio = (speed) / (SPEED_RATED);
+		System.out.println("Speed: " + speedRatio);
 		double dutyCycle = batteryRatio * (torqueRatio - speedRatio);
+		System.out.println("Duty: " + dutyCycle);
 		return dutyCycle;
 	}
 }

@@ -1,10 +1,8 @@
 package org.usfirst.frc3467.subsystems.shooter;
 
-import org.usfirst.frc3467.CommandBasedRobot;
 import org.usfirst.frc3467.RobotMap;
 import org.usfirst.frc3467.pid.Output;
 import org.usfirst.frc3467.pid.PIDTest;
-import org.usfirst.frc3467.subsystems.shooter.commands.DriveAngle;
 import org.usfirst.frc3467.subsystems.shooter.custom.CustomPot;
 
 import edu.wpi.first.wpilibj.PIDController;
@@ -43,18 +41,20 @@ public class Shooter extends Subsystem {
 		angleMotor = new Talon(RobotMap.armAngle);
 		motorOutput = new Output(angleMotor, true);
 		pot = new CustomPot(RobotMap.armPot, (300 / 5));
-		// arm = new PIDController(Kp, Ki, Kd, pot, motorOutput);
-		arm.setOutputRange(-RobotMap.armMaxSpeed, RobotMap.armMaxSpeed);
-		arm.setInputRange(90 - potRange, 90 + potRange);
-		arm.setSetpoint(90);
-		CommandBasedRobot.PIDList.addElement(arm);
-		if (debugging)
-			test = new PIDTest("Arm", arm, false);
+		arm = new PIDController(Kp, Ki, Kd, pot, motorOutput);
+		arm.disable();
+		// arm.setOutputRange(-RobotMap.armMaxSpeed, RobotMap.armMaxSpeed);
+		// arm.setInputRange(90 - potRange, 90 + potRange);
+		// arm.setSetpoint(90);
+		// CommandBasedRobot.PIDList.addElement(arm);
+		// if (debugging)
+		// test = new PIDTest("Arm", arm, false);
 		
 	}
 	
 	protected void initDefaultCommand() {
-		this.setDefaultCommand(new DriveAngle());
+		// this.setDefaultCommand(new DriveAngle());
+		this.setDefaultCommand(new DriveNew());
 	}
 	
 }
