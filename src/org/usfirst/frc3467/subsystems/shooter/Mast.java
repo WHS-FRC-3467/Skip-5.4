@@ -23,6 +23,10 @@ public class Mast extends PIDSubsystem {
 	
 	// Update values
 	protected void usePIDOutput(double output) {
+		// Link this setpoint to former PID controller
+		// Temporary and saves a lot of time
+		setpoint = shooter.arm.getSetpoint();
+		
 		// Theta
 		theta = shooter.pot.pidGet();
 		
