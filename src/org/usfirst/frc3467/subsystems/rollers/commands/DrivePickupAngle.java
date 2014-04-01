@@ -72,6 +72,7 @@ public class DrivePickupAngle extends CommandBase {
 				roller.frontArm.setSetpoint((180 - shooterAngle) - BUFFER);
 				
 			} else {
+				double old = roller.frontArm.getSetpoint();
 				double frontSetpoint = roller.frontArm.getSetpoint();
 				if (!Reverse.reverse) {
 					if (Math.abs(OI.opGamepadAuto.getRightStickY()) > 0.1)
@@ -82,7 +83,8 @@ public class DrivePickupAngle extends CommandBase {
 				}
 				
 				// Sets the setpoint of the front roller
-				roller.frontArm.setSetpoint(frontSetpoint);
+				if (old != frontSetpoint)
+					roller.frontArm.setSetpoint(frontSetpoint);
 				
 				// Determine the direction that the arm will be moving
 				if (roller.frontArm.getError() < 0)

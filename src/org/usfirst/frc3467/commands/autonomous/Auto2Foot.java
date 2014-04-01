@@ -14,15 +14,15 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
 
-public class Auto2Front extends CommandGroup {
-	public Auto2Front() {
+public class Auto2Foot extends CommandGroup {
+	public Auto2Foot() {
 		// Pick an autonomous routine to run
 		this.addSequential(new WaitCommand(1.0));
 		this.addParallel(new ShiftUp());
 		this.addParallel(new ResetDBSensors());
 		this.addSequential(new WaitCommand(0.2));
 		this.addSequential(new SetSetpoint(100, false));
-		this.addParallel(new DriveStraight(180, 0.65, false));
+		this.addParallel(new DriveStraight(192, 0.7, false));
 		this.addSequential(new WinchIn());
 		this.addSequential(new EndWinch());
 		this.addSequential(new SetSetpoint(118, false));

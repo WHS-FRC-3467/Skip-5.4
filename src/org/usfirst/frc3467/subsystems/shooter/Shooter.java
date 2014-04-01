@@ -44,8 +44,8 @@ public class Shooter extends Subsystem {
 		arm = new PIDController(Kp, Ki, Kd, pot, motorOutput);
 		arm.disable();
 		// arm.setOutputRange(-RobotMap.armMaxSpeed, RobotMap.armMaxSpeed);
-		// arm.setInputRange(90 - potRange, 90 + potRange);
-		// arm.setSetpoint(90);
+		arm.setInputRange(90 - potRange, 90 + potRange);
+		arm.setSetpoint(90);
 		// CommandBasedRobot.PIDList.addElement(arm);
 		// if (debugging)
 		// test = new PIDTest("Arm", arm, false);

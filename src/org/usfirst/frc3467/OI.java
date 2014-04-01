@@ -116,7 +116,7 @@ public class OI {
 				fire.whenPressed(new FireGroup());
 				softShot = new JoystickButton(leftJoystick, 3);
 				softShot.whenPressed(new NewSoftShot(1.0));
-				safteyShot = new JoystickButton(rightJoystick, 11);
+				safteyShot = new JoystickButton(rightJoystick, 9);
 				safteyShot.whenPressed(new NewSoftShot(RobotMap.softShotSpeed));
 				safetyShotSlow = new JoystickButton(leftJoystick, 11);
 				safetyShotSlow.whenPressed(new SafeRelease());
@@ -130,7 +130,7 @@ public class OI {
 				lockBrake.whenPressed(new LockBrake());
 				lockBrake = new JoystickButton(rightJoystick, 6);
 				lockBrake.whenPressed(new UnlockBrake());
-				reverse = new JoystickButton(rightJoystick, 8);
+				reverse = new JoystickButton(rightJoystick, 11);
 				reverse.whenPressed(new Reverse());
 				break;
 			default:

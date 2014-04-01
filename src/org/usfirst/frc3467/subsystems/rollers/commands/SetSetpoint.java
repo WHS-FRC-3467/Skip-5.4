@@ -9,13 +9,16 @@ public class SetSetpoint extends CommandBase {
 	
 	public SetSetpoint(double setpoint, boolean front) {
 		this.setpoint = setpoint;
+		
 	}
 	
 	protected void initialize() {
+		System.out.println("Front Wanted Setpoint: " + setpoint);
 		if (front)
 			roller.frontArm.setSetpoint(setpoint);
 		else
 			roller.backArm.setSetpoint(setpoint);
+		System.out.println("Front Roller Setpoint: " + roller.frontArm.getSetpoint());
 	}
 	
 	protected void execute() {
@@ -27,7 +30,7 @@ public class SetSetpoint extends CommandBase {
 	}
 	
 	protected void end() {
-		
+		System.out.println("Front Roller Setpoint: " + roller.frontArm.getSetpoint());
 	}
 	
 	protected void interrupted() {

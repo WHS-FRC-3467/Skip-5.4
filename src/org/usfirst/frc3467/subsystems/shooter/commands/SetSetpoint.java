@@ -10,7 +10,7 @@ public class SetSetpoint extends CommandBase {
 	
 	private double setpoint;
 	boolean button;
-	private boolean ultra;
+	private boolean ultra = false;
 	
 	public SetSetpoint(double setpoint, boolean button) {
 		if (setpoint > 90 + Shooter.potRange)
@@ -48,6 +48,7 @@ public class SetSetpoint extends CommandBase {
 				shooter.arm.setSetpoint(180 - setpoint);
 			shooter.frontSway = true;
 			shooter.backSway = true;
+			System.out.println("Herp da derp you fool");
 		}
 	}
 	

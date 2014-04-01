@@ -18,7 +18,7 @@ public class Winch extends Subsystem {
 	private Solenoid engageMotor;
 	private Solenoid disengageMotor;
 	
-	public static int difference = 1400;
+	public static int difference = 1350;
 	
 	public static Winch instance;
 	

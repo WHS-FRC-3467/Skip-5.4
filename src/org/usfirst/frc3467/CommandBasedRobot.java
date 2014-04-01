@@ -10,7 +10,11 @@ package org.usfirst.frc3467;
 import java.util.Vector;
 
 import org.usfirst.frc3467.commands.CommandBase;
+import org.usfirst.frc3467.commands.autonomous.Auto2Foot;
+import org.usfirst.frc3467.commands.autonomous.Auto2Foot2;
 import org.usfirst.frc3467.commands.autonomous.Auto2Front;
+import org.usfirst.frc3467.commands.autonomous.Auto2Sec;
+import org.usfirst.frc3467.commands.autonomous.Auto2SecFoot;
 import org.usfirst.frc3467.commands.autonomous.Unh;
 import org.usfirst.frc3467.commands.autonomous.UnhFast;
 import org.usfirst.frc3467.other.FTC;
@@ -57,7 +61,11 @@ public class CommandBasedRobot extends IterativeRobot {
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("UNH", new Unh());
 		autoChooser.addObject("UNH Faster", new UnhFast());
-		autoChooser.addObject("2 Ball Front Slow", new Auto2Front());
+		autoChooser.addObject("2 Ball Reg", new Auto2Front());
+		autoChooser.addObject("2 Ball Sec", new Auto2Sec());
+		autoChooser.addObject("2 Ball Foot", new Auto2Foot());
+		autoChooser.addObject("2 Ball 2 Feet", new Auto2Foot2());
+		autoChooser.addObject("2 Ball Sec + Foot", new Auto2SecFoot());
 		
 		SmartDashboard.putData("Auto", autoChooser);
 		

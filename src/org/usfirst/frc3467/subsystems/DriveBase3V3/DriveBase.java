@@ -38,7 +38,7 @@ public class DriveBase extends Subsystem {
 	public static final double WHEEL_DIAMETER = 4;
 	public static final double TICKS_PER_INCH = (TICKS_PER_REV / (WHEEL_DIAMETER * Math.PI)); // 224.2
 	
-	private static final double Gp = 0.3;
+	private static final double Gp = 0.1;
 	private static final double Gi = 0.001;
 	private static final double Gd = 0.0;
 	

@@ -14,10 +14,12 @@ public class ToggleSway extends CommandBase {
 	
 	protected void initialize() {
 		if (!Reverse.reverse) {
-			if (front)
+			if (front) {
 				shooter.frontSway = state;
-			else
+				System.out.println("Front sway: " + state);
+			} else {
 				shooter.backSway = state;
+			}
 		} else {
 			if (!front)
 				shooter.frontSway = state;

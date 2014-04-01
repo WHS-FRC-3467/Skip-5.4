@@ -14,10 +14,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
 
-public class Auto2Front extends CommandGroup {
-	public Auto2Front() {
+public class Auto2Sec extends CommandGroup {
+	public Auto2Sec() {
 		// Pick an autonomous routine to run
-		this.addSequential(new WaitCommand(1.0));
 		this.addParallel(new ShiftUp());
 		this.addParallel(new ResetDBSensors());
 		this.addSequential(new WaitCommand(0.2));
