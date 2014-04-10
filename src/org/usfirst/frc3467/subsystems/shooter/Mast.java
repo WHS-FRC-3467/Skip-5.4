@@ -49,9 +49,10 @@ public class Mast extends PIDSubsystem {
 		speed = deltaTheta / deltaTime;
 		deltaSpeed = speed - lastSpeed;
 		
-		finalSpeed = SPEED_A * Math.sqrt(2.0 * Math.abs(setpoint - theta));
-		if (setpoint - theta < 0)
+		finalSpeed = Math.sqrt(2.0 * SPEED_A * Math.abs(setpoint - theta));
+		if (setpoint - theta < 0) {
 			finalSpeed = -finalSpeed;
+		}
 		// System.out.println("Setpoint: " + setpoint);
 		// System.out.println("Error: " + (setpoint - theta));
 	}
@@ -75,8 +76,8 @@ public class Mast extends PIDSubsystem {
 	
 	// Constants
 	public double TORQUE_C = 60.0;
-	public double TORQUE_A = 2.0;
-	public double SPEED_A = 1.0;
+	public double TORQUE_A = 0.03;
+	public double SPEED_A = 5000.0;
 	private static final double TORQUE_STALL = 0.81 * 660.0;
 	private static final double SPEED_RATED = (1608.0 / 660.0) * 360.0 * 60.0;
 	
@@ -97,7 +98,7 @@ public class Mast extends PIDSubsystem {
 	}
 	
 	public void setSetpoint(double setpoint) {
-		this.setpoint = setpoint;
+		shooter.arm.setSetpoint(setpoint);
 	}
 	
 	public double getMotorOutput() {
@@ -107,7 +108,7 @@ public class Mast extends PIDSubsystem {
 		// Torque Ration
 		double torqueRatio;
 		// Hold arm
-		torqueRatio = (Math.cos(Math.toRadians(theta)) * TORQUE_C) / (TORQUE_STALL);// + (((finalSpeed - speed) / deltaTime) * TORQUE_A);
+		torqueRatio = (Math.cos(Math.toRadians(theta)) * TORQUE_C) / (TORQUE_STALL);
 		// Add speed
 		torqueRatio += (((finalSpeed - speed) / deltaTime) * TORQUE_A);
 		// System.out.println("Delta time: " + deltaTime);

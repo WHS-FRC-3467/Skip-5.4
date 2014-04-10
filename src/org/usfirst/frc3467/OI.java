@@ -87,10 +87,10 @@ public class OI {
 				setRollerSpeed3 = new JoystickButton(opGamepadAuto, Gamepad.bButton);
 				setRollerSpeed3.whenPressed(new SetRollerDirection(-1.0));
 				// Presets
-				presetOne = new JoystickButton(OI.opGamepadAuto, Gamepad.leftTrigger);
-				presetOne.whenPressed(new SetSetpoint(120, true));
-				presetTwo = new JoystickButton(OI.opGamepadAuto, Gamepad.leftBumper);
-				presetTwo.whenPressed(new SetSetpoint(90, true));
+				// presetOne = new JoystickButton(OI.opGamepadAuto, Gamepad.leftTrigger);
+				// presetOne.whenPressed(new SetSetpoint(120, true));
+				// presetTwo = new JoystickButton(OI.opGamepadAuto, Gamepad.leftBumper);
+				// presetTwo.whenPressed(new SetSetpoint(90, true));
 				presetThree = new JoystickButton(opGamepadManu, 12);
 				presetThree.whenPressed(new SetSetpoint(122, true));
 				presetFour = new JoystickButton(opGamepadManu, 11);

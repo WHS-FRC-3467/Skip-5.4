@@ -40,8 +40,8 @@ public class PotCalibration extends CommandBase {
 	protected void end() {
 		CommandBasedRobot.mast.appendToFile(Double.toString(shooter.pot.get()));
 		CommandBasedRobot.winch.appendToFile(Double.toString(winch.pot.get()));
-		CommandBasedRobot.fr.appendToFile(Double.toString(roller.frontPot.get()));
-		CommandBasedRobot.br.appendToFile(Double.toString(roller.backPot.get()));
+		CommandBasedRobot.fr.appendToFile(Double.toString(roller.frontPot.pidGet() - roller.frontPot.getOffsetCust()));
+		CommandBasedRobot.br.appendToFile(Double.toString(roller.backPot.pidGet() - roller.backPot.getOffsetCust()));
 		potInit();
 		System.out.println("Calibrated. Renabling all PID loops");
 		for (int i = 0; i < CommandBasedRobot.PIDList.size(); i++) {

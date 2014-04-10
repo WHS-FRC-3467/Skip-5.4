@@ -23,4 +23,5 @@ public class Current extends AnalogChannel {
 	public void setScale(double scale) {
 		SCALE = scale;
 	}
+	
 }

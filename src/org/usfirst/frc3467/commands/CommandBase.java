@@ -7,6 +7,7 @@ import org.usfirst.frc3467.OI;
 import org.usfirst.frc3467.other.ultrasonics.MaxbotixI2C;
 import org.usfirst.frc3467.other.ultrasonics.UltrasonicDoNothing;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.DriveBase;
+import org.usfirst.frc3467.subsystems.leds.Leds;
 import org.usfirst.frc3467.subsystems.rollers.Roller;
 import org.usfirst.frc3467.subsystems.rollers.Rollies;
 import org.usfirst.frc3467.subsystems.shooter.Mast;
@@ -28,6 +29,7 @@ public abstract class CommandBase extends Command {
 	public static Rollies rollies;
 	public static MyKinect kinect;
 	public static MaxbotixI2C ultrasonics;
+	public static Leds leds;
 	// 90
 	public static Vector subsystemList;
 	
@@ -59,6 +61,9 @@ public abstract class CommandBase extends Command {
 		
 		ultrasonics = new MaxbotixI2C(0);
 		subsystemList.addElement(ultrasonics);
+		
+		leds = new Leds();
+		subsystemList.addElement(leds);
 		
 		oi = new OI();
 		

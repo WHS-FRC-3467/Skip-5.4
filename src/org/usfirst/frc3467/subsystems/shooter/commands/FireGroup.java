@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class FireGroup extends CommandGroup {
 	public FireGroup() {
+		this.setTimeout(3);
+		this.addSequential(new WaitForCon());
 		this.addSequential(new Fire(0.0, true));
 		this.addSequential(new WinchIn());
 		this.addSequential(new EndWinch());

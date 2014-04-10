@@ -33,6 +33,8 @@ public class DrivePickupAngle extends CommandBase {
 			// Front Roller
 			SmartDashboard.putNumber("Back Arm Input", roller.backPot.pidGet());
 			SmartDashboard.putNumber("Front Arm Input", roller.frontPot.pidGet());
+			SmartDashboard.putNumber("Front Pot Raw", roller.frontPot.getAverageVoltage());
+			// SmartDashboard.putNumber("Back Pot Raw", roller.backPot.pidGet());
 			roller.frontTest.update();
 			// SmartDashboard.putNumber("Pot", roller.frontPot.pidGet());
 			// SmartDashboard.putNumber("Final Output", roller.frontMotor.get());

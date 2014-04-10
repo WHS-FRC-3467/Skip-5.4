@@ -149,10 +149,6 @@ public class DriveBase extends Subsystem {
 	
 	// Refresh Smart Dashboard values
 	public void updateSD() {
-		if (mainBreaker.getCurrent() > 200) {
-			// Indicate LEDS
-			
-		}
 		if (debugging) {
 			SmartDashboard.putNumber("Gyro", gyro.getAngle());
 			// Print data to smart dashboard
