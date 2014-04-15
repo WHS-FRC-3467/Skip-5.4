@@ -10,6 +10,8 @@ public class Leds extends Subsystem {
 	private final int I2C_ADDRESS = 0x62;
 	public static final int REG1 = 0x0;
 	public static final int REG2 = 0x1;
+	public static final int REG3 = 0x2;
+	public static final int REG4 = 0x3;
 	private static final int I2C_SLOT = DigitalModule.getDefaultDigitalModule();
 	
 	public static final int IDLE = 0;

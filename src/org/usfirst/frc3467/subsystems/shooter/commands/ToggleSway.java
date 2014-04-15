@@ -16,7 +16,6 @@ public class ToggleSway extends CommandBase {
 		if (!Reverse.reverse) {
 			if (front) {
 				shooter.frontSway = state;
-				System.out.println("Front sway: " + state);
 			} else {
 				shooter.backSway = state;
 			}
@@ -37,7 +36,11 @@ public class ToggleSway extends CommandBase {
 	}
 	
 	protected void end() {
-		
+		if (front) {
+			System.out.println("Front sway: " + state);
+		} else {
+			System.out.println("Back sway: " + state);
+		}
 	}
 	
 	protected void interrupted() {

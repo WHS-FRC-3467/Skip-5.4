@@ -21,9 +21,11 @@ public class Auto2Sec extends CommandGroup {
 		this.addParallel(new ResetDBSensors());
 		this.addSequential(new WaitCommand(0.2));
 		this.addSequential(new SetSetpoint(100, false));
-		this.addParallel(new DriveStraight(180, 0.65, false));
 		this.addSequential(new WinchIn());
 		this.addSequential(new EndWinch());
+		this.addSequential(new WaitCommand(1.0));
+		this.addParallel(new DriveStraight(180, 0.65, false));
+		
 		this.addSequential(new SetSetpoint(118, false));
 		this.addSequential(new WaitForChildren());
 		
@@ -36,7 +38,7 @@ public class Auto2Sec extends CommandGroup {
 		
 		this.addSequential(new SetSetpoint(130, false));
 		this.addSequential(new WaitCommand(0.2));
-		this.addSequential(new SetRoller(1.0, true), 1.5);
+		this.addSequential(new SetRoller(1.0, true), 1.6);
 		this.addSequential(new SetSetpoint(118, false));
 		this.addSequential(new WaitCommand(0.6));
 		this.addSequential(new Print());

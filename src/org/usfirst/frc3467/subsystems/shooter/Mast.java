@@ -4,6 +4,7 @@ import org.usfirst.frc3467.commands.CommandBase;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Mast extends PIDSubsystem {
 	private final static double PERIOD = 0.05;
@@ -26,6 +27,8 @@ public class Mast extends PIDSubsystem {
 	protected void usePIDOutput(double output) {
 		// Link this setpoint to former PID controller
 		// Temporary and saves a lot of time
+		SmartDashboard.putNumber("Mast Setpoint", shooter.arm.getSetpoint());
+		SmartDashboard.putNumber("Mast Error", shooter.arm.getError());
 		if (shooter.arm.getSetpoint() > 90 + Shooter.potRange) {
 			shooter.arm.setSetpoint(90 + Shooter.potRange);
 		}
@@ -33,6 +36,7 @@ public class Mast extends PIDSubsystem {
 			shooter.arm.setSetpoint(90 - Shooter.potRange);
 		}
 		setpoint = shooter.arm.getSetpoint();
+		this.setSetpoint(setpoint);
 		
 		// Theta
 		theta = shooter.pot.pidGet();
@@ -133,5 +137,13 @@ public class Mast extends PIDSubsystem {
 		// System.out.println("Duty: " + dutyCycle);
 		// System.out.println("---------------------------------------------------------------");
 		return dutyCycle;
+	}
+	
+	public double getLEDTheta() {
+		return theta - lastAngle;
+	}
+	
+	public double getError() {
+		return Shooter.getInstance().arm.getSetpoint() - Shooter.getInstance().pot.pidGet();
 	}
 }

@@ -4,13 +4,10 @@ import org.usfirst.frc3467.commands.CommandBase;
 import org.usfirst.frc3467.other.Reverse;
 import org.usfirst.frc3467.subsystems.shooter.Shooter;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class SetSetpoint extends CommandBase {
 	
 	private double setpoint;
 	boolean button;
-	private boolean ultra = false;
 	
 	public SetSetpoint(double setpoint, boolean button) {
 		if (setpoint > 90 + Shooter.potRange)
@@ -21,43 +18,27 @@ public class SetSetpoint extends CommandBase {
 		this.button = button;
 	}
 	
-	public SetSetpoint(boolean ultra) {
-		this.ultra = ultra;
-	}
-	
 	protected void initialize() {
-		if (!ultra) {
-			if (!Reverse.reverse)
-				shooter.arm.setSetpoint(setpoint);
-			else
-				shooter.arm.setSetpoint(180 - setpoint);
-			if (button) {
-				shooter.frontSway = true;
-				shooter.backSway = true;
-			}
+		if (!Reverse.reverse)
+			shooter.arm.setSetpoint(setpoint);
+		else
+			shooter.arm.setSetpoint(180 - setpoint);
+		if (button) {
+			shooter.frontSway = true;
+			shooter.backSway = true;
 		}
 	}
 	
 	protected void execute() {
-		if (ultra) {
-			setpoint = ultrasonics.getAngle(ultrasonics.getDistance());
-			SmartDashboard.putNumber("Expected Angle", setpoint);
-			if (!Reverse.reverse)
-				shooter.arm.setSetpoint(setpoint);
-			else
-				shooter.arm.setSetpoint(180 - setpoint);
-			shooter.frontSway = true;
-			shooter.backSway = true;
-			System.out.println("Herp da derp you fool");
-		}
+		
 	}
 	
 	protected boolean isFinished() {
-		return !ultra;
+		return true;
 	}
 	
 	protected void end() {
-		
+		System.out.println("Setting Setpoint: " + setpoint);
 	}
 	
 	protected void interrupted() {

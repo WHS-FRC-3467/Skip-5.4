@@ -15,12 +15,16 @@ import org.usfirst.frc3467.commands.autonomous.Auto2Foot2;
 import org.usfirst.frc3467.commands.autonomous.Auto2Front;
 import org.usfirst.frc3467.commands.autonomous.Auto2Sec;
 import org.usfirst.frc3467.commands.autonomous.Auto2SecFoot;
+import org.usfirst.frc3467.commands.autonomous.Auto2SecFootHalf;
+import org.usfirst.frc3467.commands.autonomous.AutoNon;
 import org.usfirst.frc3467.commands.autonomous.Unh;
 import org.usfirst.frc3467.commands.autonomous.UnhFast;
 import org.usfirst.frc3467.other.FTC;
 import org.usfirst.frc3467.other.PotCalibration;
+import org.usfirst.frc3467.subsystems.leds.Leds;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
@@ -41,6 +45,7 @@ public class CommandBasedRobot extends IterativeRobot {
 	public static FTC winch;
 	public static FTC fr;
 	public static FTC br;
+	public static int Alliance = 0;
 	
 	public CommandBasedRobot() {
 		PIDList = new Vector();
@@ -66,10 +71,14 @@ public class CommandBasedRobot extends IterativeRobot {
 		autoChooser.addObject("2 Ball Foot", new Auto2Foot());
 		autoChooser.addObject("2 Ball 2 Feet", new Auto2Foot2());
 		autoChooser.addObject("2 Ball Sec + Foot", new Auto2SecFoot());
+		autoChooser.addObject("2 Ball Sec + Foot 1/2", new Auto2SecFootHalf());
+		autoChooser.addObject("0", new AutoNon());
 		
 		SmartDashboard.putData("Auto", autoChooser);
 		
 		SmartDashboard.putData(new PotCalibration());
+		
+		Alliance = DriverStation.getInstance().getAlliance().value;
 	}
 	
 	public void autonomousInit() {
@@ -105,9 +114,15 @@ public class CommandBasedRobot extends IterativeRobot {
 			controller.reset();
 			controller.enable();
 		}
+		if (CommandBase.leds != null) {
+			CommandBase.leds.setState("Teleop init", Leds.REG3, 0);
+		}
 	}
 	
 	public void disabledInit() {
+		if (CommandBase.leds != null) {
+			CommandBase.leds.setState("Teleop init", Leds.REG3, 1);
+		}
 	}
 	
 	/**

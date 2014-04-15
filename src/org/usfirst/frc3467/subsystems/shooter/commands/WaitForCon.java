@@ -6,9 +6,10 @@ import org.usfirst.frc3467.commands.CommandBase;
 public class WaitForCon extends CommandBase {
 	
 	boolean ready = false;
+	boolean auto = false;
 	
-	public WaitForCon() {
-		
+	public WaitForCon(int hi) {
+		// this.auto = auto;
 	}
 	
 	protected void initialize() {

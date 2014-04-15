@@ -11,7 +11,6 @@ public class NewSoftShot extends CommandGroup {
 	
 	public NewSoftShot(double power) {
 		requires(CommandBase.winch);
-		this.addSequential(new WaitForCon());
 		this.addSequential(new Fire(power, false));
 		this.addSequential(new WinchIn());
 		this.addSequential(new EndWinch());

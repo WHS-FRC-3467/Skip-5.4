@@ -7,6 +7,8 @@ import org.usfirst.frc3467.subsystems.DriveBase3V3.commands.ShiftUp;
 import org.usfirst.frc3467.subsystems.rollers.commands.SetRollerDirection;
 import org.usfirst.frc3467.subsystems.shooter.commands.FireGroup;
 import org.usfirst.frc3467.subsystems.shooter.commands.NewSoftShot;
+import org.usfirst.frc3467.subsystems.shooter.commands.OnePoint;
+import org.usfirst.frc3467.subsystems.shooter.commands.OnePointChin;
 import org.usfirst.frc3467.subsystems.shooter.commands.ReturnAll;
 import org.usfirst.frc3467.subsystems.shooter.commands.SetSetpoint;
 import org.usfirst.frc3467.subsystems.shooter.commands.ToggleSway;
@@ -87,11 +89,11 @@ public class OI {
 				setRollerSpeed3 = new JoystickButton(opGamepadAuto, Gamepad.bButton);
 				setRollerSpeed3.whenPressed(new SetRollerDirection(-1.0));
 				// Presets
-				// presetOne = new JoystickButton(OI.opGamepadAuto, Gamepad.leftTrigger);
-				// presetOne.whenPressed(new SetSetpoint(120, true));
-				// presetTwo = new JoystickButton(OI.opGamepadAuto, Gamepad.leftBumper);
-				// presetTwo.whenPressed(new SetSetpoint(90, true));
-				presetThree = new JoystickButton(opGamepadManu, 12);
+				presetOne = new JoystickButton(OI.opGamepadAuto, Gamepad.leftTrigger);
+				presetOne.whenPressed(new OnePointChin(0.2));
+				presetTwo = new JoystickButton(OI.opGamepadAuto, Gamepad.leftBumper);
+				presetTwo.whenPressed(new SetSetpoint(90, true));
+				presetThree = new JoystickButton(opGamepadManu, 9);
 				presetThree.whenPressed(new SetSetpoint(122, true));
 				presetFour = new JoystickButton(opGamepadManu, 11);
 				presetFour.whenPressed(new SetSetpoint(115, true));
@@ -107,18 +109,16 @@ public class OI {
 				setBack90.whenPressed(new ToggleSway(false, true));
 				returnAll = new JoystickButton(opGamepadAuto, Gamepad.aButton);
 				returnAll.whenPressed(new ReturnAll());
-				autoAngle = new JoystickButton(opGamepadManu, 8);
-				autoAngle.whileHeld(new SetSetpoint(true));
 				break;
 			case JAKE:
 				System.out.println("Jake]");
 				fire = new JoystickButton(rightJoystick, 3);
-				fire.whenPressed(new FireGroup());
+				fire.whenPressed(new FireGroup(false));
 				softShot = new JoystickButton(leftJoystick, 3);
 				softShot.whenPressed(new NewSoftShot(1.0));
-				safteyShot = new JoystickButton(rightJoystick, 9);
-				safteyShot.whenPressed(new NewSoftShot(RobotMap.softShotSpeed));
-				safetyShotSlow = new JoystickButton(leftJoystick, 11);
+				safteyShot = new JoystickButton(leftJoystick, 11);
+				safteyShot.whenPressed(new OnePoint(RobotMap.softShotSpeed));
+				safetyShotSlow = new JoystickButton(leftJoystick, 9);
 				safetyShotSlow.whenPressed(new SafeRelease());
 				shiftDown = new JoystickButton(leftJoystick, 1);
 				shiftDown.whenPressed(new ShiftDown());

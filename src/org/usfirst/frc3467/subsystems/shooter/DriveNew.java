@@ -11,6 +11,7 @@ public class DriveNew extends CommandBase {
 	public DriveNew() {
 		requires(mast);
 		requires(shooter);
+		// this.setInterruptible(false);
 	}
 	
 	protected void initialize() {
@@ -72,7 +73,7 @@ public class DriveNew extends CommandBase {
 	}
 	
 	protected void interrupted() {
-		
+		System.out.println("Mast control interupted");
 	}
 	
 }
