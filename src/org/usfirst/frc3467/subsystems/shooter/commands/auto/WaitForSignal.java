@@ -1,12 +1,12 @@
 package org.usfirst.frc3467.subsystems.shooter.commands.auto;
 
+import org.usfirst.frc3467.CommandBasedRobot;
 import org.usfirst.frc3467.commands.CommandBase;
 
 public class WaitForSignal extends CommandBase {
-	double triggerAngle;
 	
-	public WaitForSignal(double triggerAngle) {
-		this.triggerAngle = triggerAngle;
+	public WaitForSignal() {
+		
 	}
 	
 	protected void initialize() {
@@ -18,12 +18,11 @@ public class WaitForSignal extends CommandBase {
 	}
 	
 	protected boolean isFinished() {
-		System.out.println("Arm: " + kinect.armAngle);
-		return kinect.getY() > triggerAngle;
+		return CommandBasedRobot.server.getRightStatus();
 	}
 	
 	protected void end() {
-		
+		System.out.println("Signal givin");
 	}
 	
 	protected void interrupted() {

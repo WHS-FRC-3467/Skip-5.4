@@ -29,10 +29,10 @@ public class UpdateLeds extends CommandBase {
 					if (shooter.arm.getSetpoint() == 130.0) {
 						CommandBase.leds.setState("Mast 130", Leds.ONE_THIRTY);
 					}
-					if (shooter.arm.getSetpoint() == 122.0) {
+					if (shooter.arm.getSetpoint() == 123.0) {
 						CommandBase.leds.setState("Mast 122", Leds.TRUSS);
 					}
-					if (shooter.arm.getSetpoint() == 115.0) {
+					if (shooter.arm.getSetpoint() == 116.0) {
 						CommandBase.leds.setState("Mast 115", Leds.CLOSE);
 					}
 				}
@@ -41,10 +41,10 @@ public class UpdateLeds extends CommandBase {
 					if (shooter.arm.getSetpoint() == 50.0) {
 						CommandBase.leds.setState("Mast 50", Leds.ONE_THIRTY);
 					}
-					if (shooter.arm.getSetpoint() == 58.0) {
+					if (shooter.arm.getSetpoint() == 59.0) {
 						CommandBase.leds.setState("Mast 58", Leds.TRUSS);
 					}
-					if (shooter.arm.getSetpoint() == 65.0) {
+					if (shooter.arm.getSetpoint() == 66.0) {
 						CommandBase.leds.setState("Mast 65", Leds.CLOSE);
 					}
 				}

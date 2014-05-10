@@ -6,12 +6,12 @@ public class Print extends CommandBase {
 	
 	private String message;
 	
-	public Print() {
+	public Print(String message) {
 		this.message = message;
 	}
 	
 	protected void initialize() {
-		System.out.println("Firing sway: " + shooter.frontSway);
+		System.out.println(message);
 	}
 	
 	protected void execute() {

@@ -63,6 +63,7 @@ public class OI {
 	Button presetThree;
 	Button presetFour;
 	Button presetFive;
+	Button presetSix;
 	Button lockBrake;
 	Button unlockBrake;
 	Button autoAngle;
@@ -94,11 +95,13 @@ public class OI {
 				presetTwo = new JoystickButton(OI.opGamepadAuto, Gamepad.leftBumper);
 				presetTwo.whenPressed(new SetSetpoint(90, true));
 				presetThree = new JoystickButton(opGamepadManu, 9);
-				presetThree.whenPressed(new SetSetpoint(122, true));
+				presetThree.whenPressed(new SetSetpoint(123, true));
 				presetFour = new JoystickButton(opGamepadManu, 11);
-				presetFour.whenPressed(new SetSetpoint(115, true));
+				presetFour.whenPressed(new SetSetpoint(116, true));
 				presetFive = new JoystickButton(opGamepadManu, 10);
-				presetFive.whenPressed(new SetSetpoint(130, true));
+				presetFive.whenPressed(new SetSetpoint(131, true));
+				presetSix = new JoystickButton(opGamepadManu, 12);
+				presetSix.whenPressed(new SetSetpoint(100, true));
 				winchInOp = new JoystickButton(opGamepadAuto, Gamepad.backButton);
 				winchInOp.whenPressed(new WinchInGroup());
 				safteyShotOp = new JoystickButton(opGamepadAuto, Gamepad.startButton);

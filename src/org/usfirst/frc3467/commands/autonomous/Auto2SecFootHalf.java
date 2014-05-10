@@ -1,6 +1,5 @@
 package org.usfirst.frc3467.commands.autonomous;
 
-import org.usfirst.frc3467.other.Print;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.commands.DriveStraight;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.commands.ResetDBSensors;
 import org.usfirst.frc3467.subsystems.DriveBase3V3.commands.ShiftUp;
@@ -24,22 +23,22 @@ public class Auto2SecFootHalf extends CommandGroup {
 		this.addParallel(new DriveStraight(198, 0.70, false));
 		this.addSequential(new WinchIn());
 		this.addSequential(new EndWinch());
-		this.addSequential(new SetSetpoint(118, false));
+		this.addSequential(new SetSetpoint(119, false));
 		this.addSequential(new WaitForChildren());
 		
 		// this.addSequential(new ToggleSway(true, false));
 		// this.addSequential(new org.usfirst.frc3467.subsystems.rollers.commands.SetSetpoint(42, true));
 		
 		this.addSequential(new WaitCommand(0.3));
-		this.addSequential(new Print());
+		
 		this.addSequential(new NewSoftShot(1.0));
 		
 		this.addSequential(new SetSetpoint(130, false));
 		this.addSequential(new WaitCommand(0.2));
 		this.addSequential(new SetRoller(1.0, true), 1.6);
-		this.addSequential(new SetSetpoint(118, false));
+		this.addSequential(new SetSetpoint(119, false));
 		this.addSequential(new WaitCommand(0.6));
-		this.addSequential(new Print());
+		
 		this.addSequential(new NewSoftShot(1.0));
 		// Doesn't need to happen in 10 seconds
 		// this.addParallel(new ToggleSway(true, true));

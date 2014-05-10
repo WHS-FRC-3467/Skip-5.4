@@ -9,6 +9,7 @@ package org.usfirst.frc3467;
 
 import java.util.Vector;
 
+import org.usfirst.frc3467.commands.CheesyVisionServer;
 import org.usfirst.frc3467.commands.CommandBase;
 import org.usfirst.frc3467.commands.autonomous.Auto2Foot;
 import org.usfirst.frc3467.commands.autonomous.Auto2Foot2;
@@ -17,6 +18,7 @@ import org.usfirst.frc3467.commands.autonomous.Auto2Sec;
 import org.usfirst.frc3467.commands.autonomous.Auto2SecFoot;
 import org.usfirst.frc3467.commands.autonomous.Auto2SecFootHalf;
 import org.usfirst.frc3467.commands.autonomous.AutoNon;
+import org.usfirst.frc3467.commands.autonomous.Test;
 import org.usfirst.frc3467.commands.autonomous.Unh;
 import org.usfirst.frc3467.commands.autonomous.UnhFast;
 import org.usfirst.frc3467.other.FTC;
@@ -47,6 +49,9 @@ public class CommandBasedRobot extends IterativeRobot {
 	public static FTC br;
 	public static int Alliance = 0;
 	
+	public static CheesyVisionServer server = CheesyVisionServer.getInstance();
+	public final int listenPort = 1180;
+	
 	public CommandBasedRobot() {
 		PIDList = new Vector();
 		mast = new FTC("file:///mastPot.txt");
@@ -62,6 +67,9 @@ public class CommandBasedRobot extends IterativeRobot {
 		compressor = new Compressor(RobotMap.compressorPressureSwitch, RobotMap.comperessorSpike);
 		compressor.start();
 		
+		server.setPort(listenPort);
+		server.start();
+		
 		// Add autonomous selector
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("UNH", new Unh());
@@ -73,15 +81,20 @@ public class CommandBasedRobot extends IterativeRobot {
 		autoChooser.addObject("2 Ball Sec + Foot", new Auto2SecFoot());
 		autoChooser.addObject("2 Ball Sec + Foot 1/2", new Auto2SecFootHalf());
 		autoChooser.addObject("0", new AutoNon());
+		autoChooser.addObject("Test", new Test());
 		
 		SmartDashboard.putData("Auto", autoChooser);
 		
 		SmartDashboard.putData(new PotCalibration());
 		
 		Alliance = DriverStation.getInstance().getAlliance().value;
+		
 	}
 	
 	public void autonomousInit() {
+		server.reset();
+		server.startSamplingCounts();
+		
 		// schedule the autonomous command (example)
 		for (int i = 0; i < PIDList.size(); i++) {
 			PIDController controller = (PIDController) PIDList.elementAt(i);
@@ -120,6 +133,7 @@ public class CommandBasedRobot extends IterativeRobot {
 	}
 	
 	public void disabledInit() {
+		server.stopSamplingCounts();
 		if (CommandBase.leds != null) {
 			CommandBase.leds.setState("Teleop init", Leds.REG3, 1);
 		}
