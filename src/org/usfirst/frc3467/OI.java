@@ -30,6 +30,7 @@ public class OI {
 	
 	public static final int JAKE = 1;
 	public static final int JAMES = 2;
+	public static final int ERIC = 3;
 	
 	// DriveBase
 	Button driveStraight;
@@ -45,7 +46,7 @@ public class OI {
 	Button setRollerSpeed1;
 	Button setRollerSpeed2;
 	Button setRollerSpeed3;
-	Button setFornt90;
+	Button setFront90;
 	Button setBack90;
 	
 	// Shooter
@@ -106,8 +107,41 @@ public class OI {
 				winchInOp.whenPressed(new WinchInGroup());
 				safteyShotOp = new JoystickButton(opGamepadAuto, Gamepad.startButton);
 				safteyShotOp.whenPressed(new NewSoftShot(RobotMap.softShotSpeed));
-				setFornt90 = new JoystickButton(opGamepadAuto, Gamepad.rightStickPress);
-				setFornt90.whenPressed(new ToggleSway(true, true));
+				setFront90 = new JoystickButton(opGamepadAuto, Gamepad.rightStickPress);
+				setFront90.whenPressed(new ToggleSway(true, true));
+				setBack90 = new JoystickButton(opGamepadAuto, Gamepad.leftStickPress);
+				setBack90.whenPressed(new ToggleSway(false, true));
+				returnAll = new JoystickButton(opGamepadAuto, Gamepad.aButton);
+				returnAll.whenPressed(new ReturnAll());
+				break;
+			case ERIC:
+				System.out.println("Eric]");
+				// Shooter
+				
+				// Rollers
+				setRollerSpeed1 = new JoystickButton(opGamepadAuto, Gamepad.xButton);
+				setRollerSpeed1.whenPressed(new SetRollerDirection(1.0));
+				setRollerSpeed3 = new JoystickButton(opGamepadAuto, Gamepad.bButton);
+				setRollerSpeed3.whenPressed(new SetRollerDirection(-1.0));
+				// Presets
+				presetOne = new JoystickButton(OI.opGamepadAuto, Gamepad.leftTrigger);
+				presetOne.whenPressed(new OnePointChin(0.2));
+				presetTwo = new JoystickButton(OI.opGamepadAuto, Gamepad.leftBumper);
+				presetTwo.whenPressed(new SetSetpoint(90, true));
+				presetThree = new JoystickButton(opGamepadManu, 9);
+				presetThree.whenPressed(new SetSetpoint(123, true));
+				presetFour = new JoystickButton(opGamepadManu, 11);
+				presetFour.whenPressed(new SetSetpoint(116, true));
+				presetFive = new JoystickButton(opGamepadManu, 10);
+				presetFive.whenPressed(new SetSetpoint(131, true));
+				presetSix = new JoystickButton(opGamepadManu, 12);
+				presetSix.whenPressed(new SetSetpoint(100, true));
+				winchInOp = new JoystickButton(opGamepadAuto, Gamepad.backButton);
+				winchInOp.whenPressed(new WinchInGroup());
+				safteyShotOp = new JoystickButton(opGamepadAuto, Gamepad.startButton);
+				safteyShotOp.whenPressed(new NewSoftShot(RobotMap.softShotSpeed));
+				setFront90 = new JoystickButton(opGamepadAuto, Gamepad.rightStickPress);
+				setFront90.whenPressed(new ToggleSway(true, true));
 				setBack90 = new JoystickButton(opGamepadAuto, Gamepad.leftStickPress);
 				setBack90.whenPressed(new ToggleSway(false, true));
 				returnAll = new JoystickButton(opGamepadAuto, Gamepad.aButton);

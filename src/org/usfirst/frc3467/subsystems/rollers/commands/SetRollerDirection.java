@@ -2,7 +2,6 @@ package org.usfirst.frc3467.subsystems.rollers.commands;
 
 import org.usfirst.frc3467.OI;
 import org.usfirst.frc3467.commands.CommandBase;
-import org.usfirst.frc3467.other.Reverse;
 
 public class SetRollerDirection extends CommandBase {
 	double power = 0.0;
@@ -17,27 +16,21 @@ public class SetRollerDirection extends CommandBase {
 	}
 	
 	protected void execute() {
-		if (Reverse.reverse) {
-			if (OI.opGamepadAuto.getRightTrigger()) {
-				rollies.rollerBack.set(-power);
-			} else if (OI.opGamepadAuto.getRightBumper()) {
-				rollies.rollerFront.set(power);
-			}
-		} else {
-			if (OI.opGamepadAuto.getRightTrigger()) {
-				rollies.rollerFront.set(power);
-			} else if (OI.opGamepadAuto.getRightBumper()) {
-				rollies.rollerBack.set(-power);
-			}
-		}
+		rollies.rollerFront.set(power);
+		rollies.rollerBack.set(-power);
 	}
 	
 	protected boolean isFinished() {
-		return false;
+		if (power > 0) {
+			return !OI.opGamepadAuto.getXButton();
+		} else {
+			return !OI.opGamepadAuto.getBButton();
+		}
 	}
 	
 	protected void end() {
-		
+		rollies.rollerFront.set(0);
+		rollies.rollerBack.set(0);
 	}
 	
 	protected void interrupted() {

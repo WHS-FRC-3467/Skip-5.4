@@ -25,7 +25,7 @@ public class UpdateLeds extends CommandBase {
 		}
 		if (DriveBase.getInstance().mainBreaker.getCurrent() < 150.0) {
 			if (!Reverse.reverse) {
-				if (Math.abs(mast.getError()) < 1.0) {
+				if (Math.abs(mast.getError()) < 1.5) {
 					if (shooter.arm.getSetpoint() == 130.0) {
 						CommandBase.leds.setState("Mast 130", Leds.ONE_THIRTY);
 					}
@@ -34,6 +34,9 @@ public class UpdateLeds extends CommandBase {
 					}
 					if (shooter.arm.getSetpoint() == 116.0) {
 						CommandBase.leds.setState("Mast 115", Leds.CLOSE);
+					}
+					if (shooter.arm.getSetpoint() == 100.0) {
+						CommandBase.leds.setState("Mast 100", Leds.TRUSS2);
 					}
 				}
 			} else {
@@ -47,8 +50,14 @@ public class UpdateLeds extends CommandBase {
 					if (shooter.arm.getSetpoint() == 66.0) {
 						CommandBase.leds.setState("Mast 65", Leds.CLOSE);
 					}
+					if (shooter.arm.getSetpoint() == 80.0) {
+						CommandBase.leds.setState("Mast 80", Leds.TRUSS2);
+					}
 				}
 			}
+			/*
+			 * if (rollies.rollerFront.get() > 0) { CommandBase.leds.setState("Rollers", Leds.REG5, 1); } else if (rollies.rollerBack.get() < 0) { CommandBase.leds.setState("Rollers", Leds.REG5, 2); } else { CommandBase.leds.setState("Rollers", Leds.REG5, 0); }
+			 */
 		} else {
 			CommandBase.leds.setState("Current", Leds.HIGH_CURRENT);
 		}

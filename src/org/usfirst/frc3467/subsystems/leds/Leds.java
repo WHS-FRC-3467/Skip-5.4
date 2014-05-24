@@ -12,6 +12,7 @@ public class Leds extends Subsystem {
 	public static final int REG2 = 0x1;
 	public static final int REG3 = 0x2;
 	public static final int REG4 = 0x3;
+	public static final int REG5 = 0x4;
 	private static final int I2C_SLOT = DigitalModule.getDefaultDigitalModule();
 	
 	public static final int IDLE = 0;
@@ -19,6 +20,7 @@ public class Leds extends Subsystem {
 	public static final int ONE_THIRTY = 2;
 	public static final int TRUSS = 3;
 	public static final int CLOSE = 4;
+	public static final int TRUSS2 = 5;
 	
 	private final boolean DEBUGGING = true;
 	
